@@ -46,7 +46,6 @@ export default function ItemBook({type, data}: ItemBookProps) {
           <Text className="text-xs font-semibold text-[#EE4F1C]">{data.rating}</Text>
         </View>
       </View>
-
     </TouchableOpacity>
   )
 }

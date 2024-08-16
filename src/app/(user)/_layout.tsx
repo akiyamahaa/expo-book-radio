@@ -29,6 +29,10 @@ const UserScreenLayout = () => {
         name="edit-profile"
         options={{}}
       />
+      <Stack.Screen
+        name="detail-buy"
+        options={{}}
+      />
     </Stack>
   )
 }
