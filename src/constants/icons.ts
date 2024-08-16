@@ -11,6 +11,8 @@ import logout from '@/assets/icons/logout.png'
 import eyeHide from '@/assets/icons/eye-hide.png'
 import eye from '@/assets/icons/eye.png'
 import play from '@/assets/icons/play.png'
+import favourite from '@/assets/icons/favourite.png'
+import market from '@/assets/icons/market.png'
 
 export default {
   play,
@@ -26,4 +28,6 @@ export default {
   logout,
   eyeHide,
   eye,
+  favourite,
+  market,
 }

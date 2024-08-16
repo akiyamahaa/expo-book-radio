@@ -30,13 +30,12 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarActiveTintColor: '#FFA001',
-          tabBarInactiveTintColor: '#CDCDE0',
+          tabBarActiveTintColor: '#EE4F1C',
+          tabBarInactiveTintColor: '#1F2937',
           tabBarStyle: {
-            backgroundColor: '#161622',
-            borderTopWidth: 1,
-            borderTopColor: '#232533',
+            backgroundColor: '#fff',
             height: 84,
+            paddingTop: 16
           },
         }}
       >
@@ -45,23 +44,23 @@ const TabsLayout = () => {
           options={{
             title: 'Home',
             headerShown: false,
-            tabBarIcon: (props) => <TabIcon name="Home" icon={icons.home} {...props} />,
+            tabBarIcon: (props) => <TabIcon name="" icon={icons.home} {...props} />,
           }}
         />
 
         <Tabs.Screen
-          name="bookmark"
+          name="favourite"
           options={{
-            title: 'Bookmark',
-            tabBarIcon: (props) => <TabIcon name="Bookmark" icon={icons.bookmark} {...props} />,
+            title: 'Favourite',
+            tabBarIcon: (props) => <TabIcon name="" icon={icons.favourite} {...props} />,
           }}
         />
 
         <Tabs.Screen
-          name="create"
+          name="market"
           options={{
-            title: 'Create',
-            tabBarIcon: (props) => <TabIcon name="Create" icon={icons.plus} {...props} />,
+            title: 'Market',
+            tabBarIcon: (props) => <TabIcon name="" icon={icons.market} {...props} />,
           }}
         />
 
@@ -69,7 +68,7 @@ const TabsLayout = () => {
           name="profile"
           options={{
             title: 'Profile',
-            tabBarIcon: (props) => <TabIcon name="Profile" icon={icons.profile} {...props} />,
+            tabBarIcon: (props) => <TabIcon name="" icon={icons.profile} {...props} />,
           }}
         />
       </Tabs>
