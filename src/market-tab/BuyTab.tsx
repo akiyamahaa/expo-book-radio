@@ -2,6 +2,7 @@ import { FlatList, View } from 'react-native'
 import ItemBookMarket from '@/components/ItemBookMarket'
 import { images } from '@/constants'
 import React from 'react'
+import { router } from 'expo-router'
 
 const fakeData = [
   {
@@ -24,7 +25,7 @@ export default function BuyTab() {
         horizontal={false}
         data={fakeData}
         renderItem={(item) => (
-          <ItemBookMarket data={item.item} />
+          <ItemBookMarket data={item.item} onPress={() => router.push('/detail-buybook')} />
         )}
       />
     </View>

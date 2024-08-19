@@ -4,7 +4,8 @@ import { formatCurrencyVND } from '@/untils/formatCurrency'
 import { MaterialIcons } from '@expo/vector-icons'
 
 interface IItemBookMarket {
-  data: any
+  data: any;
+  onPress?: () => void;
 }
 
 interface IDataItemBook {
@@ -16,10 +17,10 @@ interface IDataItemBook {
   image: number;
 }
 
-export default function ItemBookMarket({data}: IItemBookMarket) {
+export default function ItemBookMarket({data, onPress}: IItemBookMarket) {
 
   return (
-    <TouchableOpacity className="bg-[#F3F4F6] p-3 rounded-[16px] flex-row flex gap-2">
+    <TouchableOpacity className="bg-[#F3F4F6] p-3 rounded-[16px] flex-row flex gap-2" onPress={onPress}>
       <Image
         source={data.image}
         className="h-[100px] w-[65px] rounded-[8px]"

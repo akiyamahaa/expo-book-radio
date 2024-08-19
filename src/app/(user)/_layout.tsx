@@ -33,6 +33,10 @@ const UserScreenLayout = () => {
         name="detail-buy"
         options={{}}
       />
+      <Stack.Screen
+        name="detail-buybook"
+        options={{}}
+      />
     </Stack>
   )
 }

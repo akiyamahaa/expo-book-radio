@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native'
 import { images } from '@/constants'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 
 export interface IDataItemBook {
   id: string;
@@ -21,7 +22,7 @@ export default function ItemBook({type, data}: ItemBookProps) {
   const calculatedWidth = (windowWidth - 60) / 2;
 
   return(
-    <TouchableOpacity className="bg-[#F3F4F6] rounded-[20px] mr-2"  style={{ width: calculatedWidth }}>
+    <TouchableOpacity className="bg-[#F3F4F6] rounded-[20px] mr-2"  style={{ width: calculatedWidth }} onPress={() => router.push('/detail-book')}>
       <View className="h-[228px] relative" style={{ width: calculatedWidth }}>
         <Image
           style={{ width: calculatedWidth }}

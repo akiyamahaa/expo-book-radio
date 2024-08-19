@@ -30,7 +30,7 @@ export default function EditProfile() {
           </TouchableOpacity>
         </View>
         <TextInput
-          className="border mt-4 h-[50px] p-3 border-gray-300 rounded-2xl"
+          className="border mt-[48px] h-[50px] p-3 border-gray-300 rounded-2xl"
           placeholder="Tên của bạn"
         />
         <TextInput
@@ -41,6 +41,8 @@ export default function EditProfile() {
           className="border mt-4 h-[50px] p-3 border-gray-300 rounded-2xl"
           placeholder="Số điện thoại"
         />
+      </View>
+      <View className="absolute bottom-8 w-full px-4">
         <CustomButton
           title="Lưu"
           onPress={() => router.back()}
