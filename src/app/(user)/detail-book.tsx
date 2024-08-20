@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 import { images } from '@/constants'
 import StarRatingExample from '@/components/StarRating'
 import StarRating from '@/components/StarRating'
-import { formatCurrencyVND } from '@/untils/formatCurrency'
+import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
 
 

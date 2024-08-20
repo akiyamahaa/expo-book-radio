@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
 import CustomButton from '@/components/CustomButton'
-import { formatCurrencyVND } from '@/untils/formatCurrency'
+import { formatCurrencyVND } from '@/utils/formatCurrency'
 import { Controller, useForm } from 'react-hook-form'
 
 export default function DetailBuyBook() {

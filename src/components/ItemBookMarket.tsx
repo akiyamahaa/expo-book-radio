@@ -1,6 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { formatCurrencyVND } from '@/untils/formatCurrency'
+import { formatCurrencyVND } from '@/utils/formatCurrency'
 import { MaterialIcons } from '@expo/vector-icons'
 
 interface IItemBookMarket {
