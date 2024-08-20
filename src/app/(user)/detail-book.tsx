@@ -8,6 +8,7 @@ import StarRatingExample from '@/components/StarRating'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
+import PlayAudioTest from '@/components/PlayAudioTest'
 
 
 const renderComment = () => {
@@ -49,6 +50,7 @@ export default function DetailBook() {
           </TouchableOpacity>
         }
         />
+        <PlayAudioTest />
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
           <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
             <Image

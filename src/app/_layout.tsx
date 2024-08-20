@@ -3,6 +3,10 @@ import { useFonts } from 'expo-font'
 import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from '@/redux'
+import service from '@/constants/playbackService'
+import TrackPlayer from 'react-native-track-player'
+import { AppRegistry } from 'react-native'
+import App from '@/app/index'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -18,6 +22,8 @@ const RootLayout = () => {
     'Poppins-SemiBold': require('@/assets/fonts/Poppins-SemiBold.ttf'),
     'Poppins-Thin': require('@/assets/fonts/Poppins-Thin.ttf'),
   })
+  AppRegistry.registerComponent('appName', () => App);
+  TrackPlayer.registerPlaybackService(() => service);
 
   useEffect(() => {
     if (error) throw error
