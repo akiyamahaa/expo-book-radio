@@ -11,7 +11,6 @@ const store = configureStore({
     loading: loadingReducer,
     language: languageReducer,
     error: errorReducer,
-
     user: userReducer,
   },
 })

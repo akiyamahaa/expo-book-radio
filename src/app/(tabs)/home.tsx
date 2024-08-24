@@ -4,6 +4,7 @@ import HeaderHome from '@/components/HeaderHome'
 import ItemBook from '@/components/ItemBook'
 import { images } from '@/constants'
 import TitleHome from '@/components/TitleHome'
+import { useAppSelector } from '@/redux'
 
 const fakeData = [
   {
@@ -31,6 +32,7 @@ const fakeData = [
 
 const Home = () => {
   const [activeTab, setActiveTab] = React.useState(1)
+  const {user} = useAppSelector(state => state.user);
 
   return (
     <SafeAreaView className="bg-white pb-6 flex-1">

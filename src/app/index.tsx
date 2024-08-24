@@ -1,9 +1,11 @@
 import { Redirect } from 'expo-router'
 import { View } from 'react-native'
+import { useAppSelector } from '@/redux'
 
 export default function App() {
   // NOTE: Change logic
-  const user = true
+  const {user} = useAppSelector(state => state.user);
+
   return (
     <>
       <View className="flex-1">

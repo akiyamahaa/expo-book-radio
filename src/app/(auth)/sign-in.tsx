@@ -6,9 +6,64 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
 import CustomButton from '@/components/CustomButton'
 import { Checkbox } from 'expo-checkbox'
+import { setUser } from '@/redux/userSlice'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import firebaseApp from '@/firebase'
+import { useAppDispatch } from '@/redux'
 
 const SignIn = () => {
   const [isChecked, setChecked] = useState(false);
+  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // const [user, setUser] = useState(null); // Track user authentication state
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState(null);
+
+  const auth = getAuth(firebaseApp);
+  const handleAuthentication = async () => {
+    // try {
+    //   if (user) {
+    //     // If user is already authenticated, log out
+    //     console.log('User logged out successfully!');
+    //     await signOut(auth);
+    //   } else {
+    //     // Sign in or sign up
+    //     if (isLogin) {
+    //       // Sign in
+    //       await signInWithEmailAndPassword(auth, email, password).then((res) => {
+    //         console.log(res.user)
+    //         dispatch(setUser(res.user))
+    //       });
+    //       console.log('User signed in successfully!');
+    //     } else {
+    //       // Sign up
+    //       await createUserWithEmailAndPassword(auth, email, password);
+    //       console.log('User created successfully!');
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error('Authentication error:', error.message);
+    // }
+    try {
+      if (isLogin) {
+        // Sign in
+        await signInWithEmailAndPassword(auth, email, password).then((res) => {
+           dispatch(setUser({user: res.user}))
+           router.push(ERouteTable.HOME)
+        });
+
+        console.log('User signed in successfully!');
+      } else {
+        // Sign up
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('User created successfully!');
+      }
+    } catch (error) {
+      setError(error.message)
+    }
+  };
+
 
   return (
     <>
@@ -25,11 +80,18 @@ const SignIn = () => {
           <TextInput
             className="border p-3 border-gray-300 rounded-2xl"
             placeholder="Email"
+            onChangeText={(e) => {
+              setEmail(e)
+            }}
           />
           <TextInput
             className="border mt-4 p-3 border-gray-300 rounded-2xl"
             placeholder="Mật khẩu"
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
           />
+          {error && <Text className="text-red-500">{error}</Text>}
           <View className="flex mt-4 flex-row justify-between items-center">
             <View className="flex flex-row gap-2 items-center">
               <Checkbox value={isChecked} onValueChange={setChecked} />
@@ -42,7 +104,8 @@ const SignIn = () => {
 
           <CustomButton
             title="Đăng nhập"
-            onPress={() => router.push(ERouteTable.HOME)}
+            // onPress={handleLogin}
+            onPress={handleAuthentication}
             containerStyle="w-full mt-7 bg-[#EE4F1C] min-h-[48px]"
             textStyle="text-white"
           />

@@ -5,9 +5,12 @@ import { images } from '@/constants'
 import { router } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import { ERouteTable } from '@/constants/route-table'
+import { useDispatch } from 'react-redux'
+import { removeUser } from '@/redux/userSlice'
 
 const Profile = () => {
   const [activeNotify, setActiveNotify] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
 
   return (
@@ -60,7 +63,10 @@ const Profile = () => {
           </View>
           <Switch value={activeNotify} onChange={() => setActiveNotify(!activeNotify)} />
         </View>
-        <TouchableOpacity onPress={() => router.push(ERouteTable.SIGIN_IN)} className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2">
+        <TouchableOpacity onPress={() => {
+          router.push(ERouteTable.SIGIN_IN)
+          dispatch(removeUser())
+        }} className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2">
           <View className="flex flex-row gap-2 items-center">
             <Image
               source={images.iconLogout}

@@ -1,14 +1,14 @@
-import { Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { images } from '@/constants'
-import StarRatingExample from '@/components/StarRating'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
-import PlayAudioTest from '@/components/PlayAudioTest'
+import TrackPlayer, { Capability, State, usePlaybackState, useProgress } from 'react-native-track-player'
+import Slider from '@react-native-community/slider'
 
 
 const renderComment = () => {
@@ -37,6 +37,55 @@ export default function DetailBook() {
   const [play, setPlay] = React.useState(false)
   const [showALL, setShowAll] = useState(false)
 
+  const playbackState = usePlaybackState();
+  const progress = useProgress();
+
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  useEffect(() => {
+    setupPlayer();
+    return () => {
+      TrackPlayer.reset(); // Use reset instead of destroy
+    };
+  }, []);
+
+  const setupPlayer = async () => {
+    await TrackPlayer.setupPlayer();
+    await TrackPlayer.add({
+      id: 'trackId',
+      url: 'https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw',
+      title: 'Track Title',
+      artist: 'Track Artist',
+    });
+
+    TrackPlayer.updateOptions({
+      stopWithApp: true,
+      capabilities: [
+        Capability.Play,
+        Capability.Pause,
+        Capability.SeekTo,
+      ],
+      compactCapabilities: [
+        Capability.Play,
+        Capability.Pause,
+      ],
+    });
+  };
+
+  const togglePlayPause = async () => {
+    if (playbackState === State.Playing) {
+      await TrackPlayer.pause();
+      setIsPlaying(false);
+    } else {
+      await TrackPlayer.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const onSliderValueChange = async (value: number) => {
+    await TrackPlayer.seekTo(value);
+  };
+
   return (
     <SafeAreaView className="bg-white h-full relative flex-1">
       <View className="mx-4 flex-1">
@@ -50,7 +99,6 @@ export default function DetailBook() {
           </TouchableOpacity>
         }
         />
-        <PlayAudioTest />
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
           <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
             <Image
@@ -77,10 +125,18 @@ export default function DetailBook() {
               </View>
             </View>
           </View>
-          <View className="h-[48px] bg-[#EE4F1C1A] mt-4 rounded-[16px] justify-center px-[12px]">
-            <TouchableOpacity onPress={() => setPlay(!play)}>
-              {play ? <AntDesign name="pausecircle" size={24} color="#EE4F1C" /> : <AntDesign name="play" size={24} color="#EE4F1C" />}
+          <View className="flex-row flex gap-2 items-center h-[48px] bg-[#EE4F1C1A] mt-4 rounded-[16px] justify-center px-[12px]">
+            <TouchableOpacity onPress={togglePlayPause}>
+              {isPlaying ? <AntDesign name="pausecircle" size={24} color="#EE4F1C" /> : <AntDesign name="play" size={24} color="#EE4F1C" />}
             </TouchableOpacity>
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={progress.duration}
+              value={progress.position}
+              onValueChange={onSliderValueChange}
+              thumbTintColor="#fff"
+            />
           </View>
           <Text className="font-semibold mt-4 mb-0.5 text-lg">Mô tả</Text>
           <View>
@@ -121,3 +177,21 @@ export default function DetailBook() {
     </SafeAreaView>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  button: {
+    padding: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+  },
+  slider: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+});
