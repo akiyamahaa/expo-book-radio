@@ -19,9 +19,12 @@ const SignIn = () => {
   // const [user, setUser] = useState(null); // Track user authentication state
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   const auth = getAuth(firebaseApp);
   const handleAuthentication = async () => {
+    setLoading(true)
+
     // try {
     //   if (user) {
     //     // If user is already authenticated, log out
@@ -49,7 +52,8 @@ const SignIn = () => {
       if (isLogin) {
         // Sign in
         await signInWithEmailAndPassword(auth, email, password).then((res) => {
-           dispatch(setUser({user: res.user}))
+          setLoading(false)
+          dispatch(setUser({user: res.user}))
            router.push(ERouteTable.HOME)
         });
 
@@ -60,6 +64,7 @@ const SignIn = () => {
         console.log('User created successfully!');
       }
     } catch (error) {
+      setLoading(false)
       setError(error.message)
     }
   };
@@ -108,6 +113,7 @@ const SignIn = () => {
             onPress={handleAuthentication}
             containerStyle="w-full mt-7 bg-[#EE4F1C] min-h-[48px]"
             textStyle="text-white"
+            isLoading={loading}
           />
 
         </View>

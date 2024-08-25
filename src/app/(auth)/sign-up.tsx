@@ -1,12 +1,36 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
 import CustomButton from '@/components/CustomButton'
 import { router } from 'expo-router'
 import { ERouteTable } from '@/constants/route-table'
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { setUser } from '@/redux/userSlice'
+import firebaseApp from '@/firebase'
+import { useAppDispatch } from '@/redux'
 
 const SignUp = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const auth = getAuth(firebaseApp);
+  const [loading, setLoading] = useState(false)
+  const dispatch = useAppDispatch();
+
+  const handleAuthentication = async () => {
+    setLoading(true)
+    try {
+      await createUserWithEmailAndPassword(auth, email, password).then((res) => {
+        dispatch(setUser({user: res.user}))
+        router.push(ERouteTable.VERIFY_ACCOUNT)
+        setLoading(false)
+      });
+    } catch (error) {
+      setLoading(false)
+      console.log(error.message)
+    }
+  };
+
   return (
     <>
       <SafeAreaView className="bg-white h-full relative flex-1">
@@ -26,11 +50,17 @@ const SignUp = () => {
           <TextInput
             className="border mt-4 p-3 border-gray-300 rounded-2xl"
             placeholder="Email"
+            onChangeText={(e) => {
+              setEmail(e)
+            }}
           />
           <TextInput
             className="border mt-4 p-3 border-gray-300 rounded-2xl"
             placeholder="Mật khẩu"
             inputMode="password"
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
           />
           <TextInput
             className="border mt-4 p-3 border-gray-300 rounded-2xl"
@@ -40,9 +70,10 @@ const SignUp = () => {
 
           <CustomButton
             title="Đăng ký"
-            onPress={() => router.push(ERouteTable.VERIFY_ACCOUNT)}
+            onPress={handleAuthentication}
             containerStyle="w-full mt-7 bg-[#EE4F1C] min-h-[48px]"
             textStyle="text-white"
+            isLoading={loading}
           />
 
         </View>
