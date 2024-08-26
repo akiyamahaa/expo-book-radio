@@ -15,6 +15,7 @@ const UserScreenLayout = () => {
       <Stack.Screen name="edit-profile" options={{}} />
       <Stack.Screen name="detail-buy" options={{}} />
       <Stack.Screen name="detail-buybook" options={{}} />
+      <Stack.Screen name="music-screen" options={{}} />
     </Stack>
   )
 }

@@ -3,6 +3,7 @@ import { images } from '@/constants'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
+import * as url from 'node:url'
 
 export interface IDataItemBook {
   id: string;
@@ -22,11 +23,15 @@ export default function ItemBook({type, data}: ItemBookProps) {
   const calculatedWidth = (windowWidth - 60) / 2;
 
   return(
-    <TouchableOpacity className="bg-[#F3F4F6] rounded-[20px] mr-2"  style={{ width: calculatedWidth }} onPress={() => router.push('/detail-book')}>
+    <TouchableOpacity
+      className="bg-[#F3F4F6] rounded-[20px] mr-2"
+      style={{ width: calculatedWidth }}
+      onPress={() => router.push({ pathname: '/detail-book', params: { data: JSON.stringify(data) } })}
+    >
       <View className="h-[228px] relative" style={{ width: calculatedWidth }}>
         <Image
           style={{ width: calculatedWidth }}
-          source={data.image}
+          source={{ uri: data.thumbnail }}
           className="w-full h-[228px] rounded-[20px]"
         />
         {type === "play" && (
@@ -44,7 +49,7 @@ export default function ItemBook({type, data}: ItemBookProps) {
         <Text className="text-sm font-semibold mt-0.5" numberOfLines={1}>{data.name}</Text>
         <View className="flex-row flex gap-1 mt-0.5">
           <MaterialIcons name="star-rate" size={14} color="#EE4F1C" />
-          <Text className="text-xs font-semibold text-[#EE4F1C]">{data.rating}</Text>
+          <Text className="text-xs font-semibold text-[#EE4F1C]">{data.rate}</Text>
         </View>
       </View>
     </TouchableOpacity>

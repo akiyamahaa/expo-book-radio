@@ -2,52 +2,37 @@ import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity,
 import React, { useEffect, useState } from 'react'
 import HeaderHome from '@/components/HeaderHome'
 import ItemBook from '@/components/ItemBook'
-import { images } from '@/constants'
 import TitleHome from '@/components/TitleHome'
-import { useAppSelector } from '@/redux'
 import { getAllDocuments } from '@/firebase/api'
-
-const fakeData = [
-  {
-    id: "asjsajdaskjdkals",
-    image: images.logoApp,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
-  },
-  {
-    id: "asjsajdaskjddsadakals",
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
-  },
-  {
-    id: "asjsajdaskjddsadadassddakals",
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
-  },
-]
+import { LoadingAnimation } from '@/components/LoadingAnimation'
 
 const Home = () => {
   const [activeTab, setActiveTab] = React.useState(1)
-  const [listDataHome, setListDataHome] = useState()
+  const [listDataHome, setListDataHome] = useState<any>([])
+  const [dataRead, setDataRead] = useState<any>([])
+  const [dataRadio, setDataRadio] = useState<any>([])
 
   const renderData = async () => {
-    return await getAllDocuments("book-radio")
+    const a = await getAllDocuments("book-radio")
+    setListDataHome(a)
   }
 
   useEffect(() => {
     renderData()
   }, [])
 
+  useEffect(() => {
+    if(listDataHome) {
+      setDataRead(listDataHome.filter(item => item.typeBook === "READ"))
+      setDataRadio(listDataHome.filter(item => item.typeBook === "RADIO"))
+    }
+  }, [listDataHome])
+
   return (
     <SafeAreaView className="bg-white pb-6 flex-1">
       <View className="mx-4 flex-1">
         <HeaderHome title="LOGO" />
-
+        {!listDataHome.length > 0 && !(dataRead.length > 0 || dataRadio.length > 0) ? <LoadingAnimation /> :
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1 mb-2">
           <View className="flex-row flex justify-between">
             <View className="flex-row gap-2 -rotate-90 mt-[120px] -ml-14 h-8">
@@ -61,9 +46,9 @@ const Home = () => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal
-              data={fakeData}
+              data={activeTab === 1 ? dataRead : dataRadio}
               renderItem={(item) => (
-                <ItemBook type="play" data={item.item} />
+                <ItemBook type={activeTab === 1 ? 'play' : ''} data={item.item} />
               )}
             />
           </View>
@@ -71,7 +56,7 @@ const Home = () => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={fakeData}
+            data={listDataHome}
             renderItem={(item) => (
               <ItemBook type="play" data={item.item} />
             )}
@@ -80,7 +65,7 @@ const Home = () => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={fakeData}
+            data={listDataHome}
             renderItem={(item) => (
               <ItemBook type="play" data={item.item} />
             )}
@@ -89,15 +74,12 @@ const Home = () => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={fakeData}
+            data={listDataHome}
             renderItem={(item) => (
               <ItemBook type="play" data={item.item} />
             )}
           />
-        </ScrollView>
-
-
-
+        </ScrollView>}
       </View>
     </SafeAreaView>
   )

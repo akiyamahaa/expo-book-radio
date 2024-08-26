@@ -2,7 +2,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, Vi
 import React, { useEffect, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { images } from '@/constants'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
@@ -34,7 +34,6 @@ const renderComment = () => {
 
 export default function DetailBook() {
   const [activeHeart, setActiveHeart] = React.useState(false)
-  const [play, setPlay] = React.useState(false)
   const [showALL, setShowAll] = useState(false)
 
   const playbackState = usePlaybackState();
@@ -42,10 +41,14 @@ export default function DetailBook() {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+  const params = useLocalSearchParams()
+  const { data } = params
+  const item = JSON.parse(data)
+
   useEffect(() => {
     setupPlayer();
     return () => {
-      TrackPlayer.reset(); // Use reset instead of destroy
+      TrackPlayer.reset();
     };
   }, []);
 
@@ -53,7 +56,7 @@ export default function DetailBook() {
     await TrackPlayer.setupPlayer();
     await TrackPlayer.add({
       id: 'trackId',
-      url: 'https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw',
+      url: item.audio,
       title: 'Track Title',
       artist: 'Track Artist',
     });
@@ -102,25 +105,25 @@ export default function DetailBook() {
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
           <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
             <Image
-              source={images.thumbnail}
+              source={{uri: item.thumbnail}}
               className="w-[176px] h-[250px] top-[-80px] rounded-[20px]"
             />
-            <Text className="text-center top-[-70px] text-xl font-semibold text-[#EE4F1C] max-w-[70%]">Thao túng tâm lý trong {`\n`} giao tiếp</Text>
-            <Text className="text-center top-[-65px]">Dr.Hiro</Text>
+            <Text className="text-center top-[-70px] text-xl font-semibold text-[#EE4F1C] max-w-[70%]">{item.name}</Text>
+            <Text className="text-center top-[-65px]">{item.author}</Text>
             <View className="flex flex-row justify-between top-[-50px]">
               <View className="flex flex-col items-center">
                 <View className="flex flex-row items-center">
                   <MaterialIcons name="star-rate" size={16} color="#EE4F1C" />
-                  <Text className="text-xl font-semibold ml-1">4.5</Text>
+                  <Text className="text-xl font-semibold ml-1">{item.rate}</Text>
                 </View>
                 <Text className="text-xs">Đánh giá</Text>
               </View>
               <View className="flex flex-col items-center mx-12">
-                <Text className="text-xl font-semibold ml-1">40</Text>
+                <Text className="text-xl font-semibold ml-1">{item.numberChapter}</Text>
                 <Text className="text-xs">Chương</Text>
               </View>
               <View className="flex flex-col items-center">
-                <Text className="text-xl font-semibold ml-1">405</Text>
+                <Text className="text-xl font-semibold ml-1">{item.numberPage}</Text>
                 <Text className="text-xs">Trang</Text>
               </View>
             </View>
@@ -140,7 +143,7 @@ export default function DetailBook() {
           </View>
           <Text className="font-semibold mt-4 mb-0.5 text-lg">Mô tả</Text>
           <View>
-            <Text numberOfLines={!showALL ? 4 : undefined}>Lorem ipsum dolor sit amet consectetur. Ac eget id odio elementum vitae id morbi sed faucibus. Morbi massa et diam morbi libero eu condimentum ut. Aenean id risus adipiscing in. Ut quis nundimentum ut. Aenean id risus adipiscing in. Ut quis nundimentum ut. Aenean id risus adipiscing in. Ut quis nundimentum ut. Aenean id risus adipiscing in. Ut quis nundimentum ut. Aenean id risus adipiscing in. Ut quis nu</Text>
+            <Text numberOfLines={!showALL ? 4 : undefined}>{item.description}</Text>
             <TouchableOpacity onPress={() => setShowAll(!showALL)}>
 
               <Text className="text-[#1E40AF] mt-0.5">{!showALL ? "Xem thêm" : "Thu gọn"}</Text>
@@ -169,7 +172,7 @@ export default function DetailBook() {
         <View className="flex flex-row justify-between pt-2">
           <View>
             <Text className="text-[#6B7280]">Giá</Text>
-            <Text className="font-semibold text-xl">{formatCurrencyVND(100000)}</Text>
+            <Text className="font-semibold text-xl">{formatCurrencyVND(item.price)}</Text>
           </View>
           <CustomButton title={"Mua ngay"} containerStyle="px-2" onPress={() => router.push('/detail-buybook')}/>
         </View>
@@ -177,13 +180,8 @@ export default function DetailBook() {
     </SafeAreaView>
   )
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
   button: {
     padding: 10,
   },
