@@ -4,7 +4,7 @@ import { useAppSelector } from '@/redux'
 
 export default function App() {
   // NOTE: Change logic
-  const {user} = useAppSelector(state => state.user);
+  const { user } = useAppSelector((state) => state.user)
 
   return (
     <>

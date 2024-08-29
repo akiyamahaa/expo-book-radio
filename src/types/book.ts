@@ -11,22 +11,23 @@ export enum EDeliveryStatus {
 }
 
 export interface IBook {
-  id: string
-  title: string
+  id?: string
+  name: string
   description: string
-  imageUrl: string
+  thumbnail: string
   categories: string
-  type: EBookType
+  typeBook?: string
   author: string
-  pages: number 
-  chapters: number
+  numberPage: number
+  numberChapter: number
   price: number
   rating?: number
   audioUrl?: string
+  quantity?: number
 }
 
 export interface IComment {
-  id: string
+  id?: string
   bookId: string
   userId: string
   comment: string
@@ -36,19 +37,20 @@ export interface IComment {
 }
 
 export interface IPurchaseBook {
-  id: string
+  id?: string
   bookId: string
   userId: string
   userName: string
   phone: string
   address: string
-  deliveryStatus: EDeliveryStatus
+  quantity: number
+  deliveryStatus?: string
   // createdAt?:Date;
   // updatedAt?:Date
 }
 
 export interface ISellBook {
-  id: string
+  id?: string
   userId: string
   bookInfo: IBook
 }
