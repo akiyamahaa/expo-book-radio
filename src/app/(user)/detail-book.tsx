@@ -15,13 +15,7 @@ import { images } from '@/constants'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
-import TrackPlayer, {
-  Capability,
-  State,
-  usePlaybackState,
-  useProgress,
-} from 'react-native-track-player'
-import Slider from '@react-native-community/slider'
+import TrackPlayer from 'react-native-track-player'
 import { IBook, IComment } from '@/types/book'
 import { getAllDocuments, getOneDocument, IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'

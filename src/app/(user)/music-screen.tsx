@@ -13,51 +13,52 @@ import React from 'react'
 const MusicScreen = () => {
   const activeTrack = useActiveTrack()
 
-  console.log(activeTrack, '----activeTrack----')
-
   return (
-    <SafeAreaView style={{ flex: 1 }} colors={[colors.background]}>
-      <HeaderComponent
-        title="Sách nói"
-        iconLeft={
-          <TouchableOpacity onPress={() => router.back()}>
-            <AntDesign name="left" size={24} color="#1F2937" />
-          </TouchableOpacity>
-        }
-        styleHeader="mx-4"
-      />
+    <View style={{ flex: 1 }} colors={[colors.background]}>
+
       <View style={styles.overlayContainer}>
         {/*<DismissPlayerSymbol />*/}
-
+        <HeaderComponent
+          title="Sách nói"
+          iconLeft={
+            <TouchableOpacity onPress={() => router.back()}>
+              <AntDesign name="left" size={24} color="#1F2937" />
+            </TouchableOpacity>
+          }
+          styleHeader="mt-12"
+        />
         <View style={{ flex: 1, marginTop: 70 }}>
           <View style={styles.artworkImageContainer}>
             <FastImage
               source={{
-                uri: 'https://product.hstatic.net/200000512563/product/81gojoegvol._sl1500__b4f3412e7d094a4e8afd340aaaab9801_master.jpg',
+                uri: activeTrack?.thumbnail,
                 priority: FastImage.priority.high,
               }}
               resizeMode="cover"
               style={styles.artworkImage}
             />
           </View>
+          <View className="text-center flex flex-row mt-3 justify-center">
+            {/* Track artist */}
+            {activeTrack?.author && (
+              <Text numberOfLines={1} className="text-white text-xs">
+                {activeTrack.author}
+              </Text>
+            )}
 
+          </View>
+          {activeTrack?.name && (
+            <Text numberOfLines={2} className="text-white mt-2 font-semibold text-center text-xl">{activeTrack.name}</Text>
+          )}
           <View style={{ flex: 1 }}>
             <View>
-              <View style={{ height: 60 }}>
-                {/* Track artist */}
-                {activeTrack?.author && (
-                  <Text numberOfLines={1} style={[{ marginTop: 6 }]}>
-                    {activeTrack.author}
-                  </Text>
-                )}
-              </View>
               <PlayerProgressBar style={{ marginTop: 32 }} />
               <PlayerControls style={{ marginTop: 40 }} />
             </View>
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
