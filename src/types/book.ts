@@ -24,6 +24,7 @@ export interface IBook {
   rating?: number
   audioUrl?: string
   quantity?: number
+  url?: string
 }
 
 export interface IComment {

@@ -1,7 +1,6 @@
 import { PlayerControls } from '@/components/PlayerControls'
 import { PlayerProgressBar } from '@/components/PlayerProgressbar'
-import { colors, fontSize, screenPadding } from '@/constants/tokens'
-import { useTrackPlayerFavorite } from '@/hooks/useTrackPlayerFavorite'
+import { colors, screenPadding } from '@/constants/tokens'
 import { defaultStyles } from '@/styles'
 import { AntDesign } from '@expo/vector-icons'
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'

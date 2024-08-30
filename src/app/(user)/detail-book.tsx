@@ -7,23 +7,37 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { router, useLocalSearchParams } from 'expo-router'
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router'
 import { images } from '@/constants'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
-import TrackPlayer from 'react-native-track-player'
+import TrackPlayer, {
+  Capability,
+  State,
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player'
+import Slider from '@react-native-community/slider'
+import { IBook, IComment } from '@/types/book'
+import { getAllDocuments, getOneDocument, IQueryOptions, queryDocuments } from '@/firebase/api'
+import { EQueryOperator } from '@/firebase/type'
+import { useAppSelector } from '@/redux'
+import { LoadingAnimation } from '@/components/LoadingAnimation'
 import { useQueue } from '@/store/queue'
-import { getAllDocuments } from '@/firebase/api'
 
-const renderComment = () => {
-  const handleRating = (rating) => {
-    console.log('Selected Rating:', rating)
-  }
-
+const CommentCard = ({
+  username,
+  rating,
+  comment,
+}: {
+  username: string
+  rating: number
+  comment: string
+}) => {
   return (
     <View className="flex flex-row gap-2 border-b pb-2 border-b-[#E5E7EB] mt-1">
       <Image
@@ -32,12 +46,9 @@ const renderComment = () => {
         resizeMode="contain"
       />
       <View>
-        <Text className="font-semibold mb-0.5">Alfredo Septimus</Text>
-        <StarRating onRatingPress={handleRating} disabled={true} size={12} />
-        <Text className="mt-0.5">
-          Lorem ipsum dolor sit amet consectetur. In eget volutpat amet sit velit consectetur
-          tristique.
-        </Text>
+        <Text className="font-semibold mb-0.5">{username}</Text>
+        <StarRating ratingValue={rating} disabled={true} size={12} />
+        <Text className="mt-0.5">{comment}</Text>
       </View>
     </View>
   )
@@ -46,6 +57,15 @@ const renderComment = () => {
 export default function DetailBook() {
   const [activeHeart, setActiveHeart] = React.useState(false)
   const [showALL, setShowAll] = useState(false)
+
+  const user = useAppSelector((state) => state.user.user)
+
+  const params = useLocalSearchParams<{ bookId: string }>()
+  const { bookId } = params
+  const [listComment, setListComment] = useState<IComment[]>([])
+  const [book, setBook] = useState<IBook | null>(null)
+  const [isCommented, setIsCommented] = useState(false)
+
   const [listDataHome, setListDataHome] = useState<any>([])
 
   const queueOffset = useRef(0)
@@ -60,18 +80,13 @@ export default function DetailBook() {
     renderData()
   }, [])
 
-  const params = useLocalSearchParams()
-  const { data } = params
-  const item = JSON.parse(data)
-  console.log(item)
-
   const togglePlayPause = async () => {
-    const trackIndex = listDataHome.findIndex((track) => track.url === item.url)
+    const trackIndex = listDataHome.findIndex((track) => track.url === book.url)
 
     console.log(trackIndex, '---vtrackIndex')
     if (trackIndex === -1) return
 
-    const isChangingQueue = item.id !== activeQueueId
+    const isChangingQueue = book.id !== activeQueueId
 
     if (isChangingQueue) {
       const beforeTracks = listDataHome.slice(0, trackIndex)
@@ -80,14 +95,14 @@ export default function DetailBook() {
       await TrackPlayer.reset()
 
       // we construct the new queue
-      await TrackPlayer.add(item)
+      await TrackPlayer.add(book)
       await TrackPlayer.add(afterTracks)
       await TrackPlayer.add(beforeTracks)
 
       await TrackPlayer.play()
 
       queueOffset.current = trackIndex
-      setActiveQueueId(item.id)
+      setActiveQueueId(book.id)
     } else {
       const nextTrackIndex =
         trackIndex - queueOffset.current < 0
@@ -99,6 +114,31 @@ export default function DetailBook() {
     }
     router.push('/music-screen')
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchBookDetail = async () => {
+        const data = await getOneDocument<IBook>('book-radio', bookId!)
+        setBook(data)
+      }
+      const fetchAllComment = async () => {
+        const queryOptions: IQueryOptions = {
+          property: 'bookId',
+          queryOperator: EQueryOperator.EQUAL,
+          value: bookId,
+        }
+
+        const list: IComment[] = await queryDocuments('comments', queryOptions)
+
+        const isCheck = list.some((comment) => comment.userId === user.uid)
+        setIsCommented(isCheck)
+        setListComment(list)
+      }
+
+      fetchBookDetail()
+      fetchAllComment()
+    }, [bookId, user.uid]),
+  )
 
   return (
     <SafeAreaView className="bg-white h-full relative flex-1">
@@ -120,82 +160,95 @@ export default function DetailBook() {
             </TouchableOpacity>
           }
         />
-        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-          <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
-            <Image
-              source={{ uri: item.thumbnail }}
-              className="w-[176px] h-[250px] top-[-80px] rounded-[20px]"
-            />
-            <Text className="text-center top-[-70px] text-xl font-semibold text-[#EE4F1C] max-w-[70%]">
-              {item.name}
-            </Text>
-            <Text className="text-center top-[-65px]">{item.author}</Text>
-            <View className="flex flex-row justify-between top-[-50px]">
-              <View className="flex flex-col items-center">
-                <View className="flex flex-row items-center">
-                  <MaterialIcons name="star-rate" size={16} color="#EE4F1C" />
-                  <Text className="text-xl font-semibold ml-1">{item.rate}</Text>
+        {book ? (
+          <>
+            <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+              <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
+                <Image
+                  source={{ uri: book.thumbnail }}
+                  className="w-[176px] h-[250px] top-[-80px] rounded-[20px]"
+                />
+                <Text className="text-center top-[-70px] text-xl font-semibold text-[#EE4F1C] max-w-[70%]">
+                  {book.name}
+                </Text>
+                <Text className="text-center top-[-65px]">{book.author}</Text>
+                <View className="flex flex-row justify-between top-[-50px]">
+                  <View className="flex flex-col items-center">
+                    <View className="flex flex-row items-center">
+                      <Text className="text-xl font-semibold ml-1">{book.rating || 0}</Text>
+                      <MaterialIcons name="star-rate" size={16} color="#EE4F1C" />
+                    </View>
+                    <Text className="text-xs">Đánh giá</Text>
+                  </View>
+                  <View className="flex flex-col items-center mx-12">
+                    <Text className="text-xl font-semibold ml-1">{book.numberChapter}</Text>
+                    <Text className="text-xs">Chương</Text>
+                  </View>
+                  <View className="flex flex-col items-center">
+                    <Text className="text-xl font-semibold ml-1">{book.numberPage}</Text>
+                    <Text className="text-xs">Trang</Text>
+                  </View>
                 </View>
-                <Text className="text-xs">Đánh giá</Text>
               </View>
-              <View className="flex flex-col items-center mx-12">
-                <Text className="text-xl font-semibold ml-1">{item.numberChapter}</Text>
-                <Text className="text-xs">Chương</Text>
+              <View className="flex-row flex items-center bg-[#EE4F1C1A] mt-4 rounded-[16px] px-[12px] py-2">
+                <TouchableOpacity onPress={togglePlayPause}>
+                  <AntDesign name="play" size={24} color="#EE4F1C" />
+                </TouchableOpacity>
+                <View className="ml-2">
+                  <Text className="font-semibold">{book.name}</Text>
+                  <Text className="text-xs">{book.author}</Text>
+                </View>
               </View>
-              <View className="flex flex-col items-center">
-                <Text className="text-xl font-semibold ml-1">{item.numberPage}</Text>
-                <Text className="text-xs">Trang</Text>
+              <Text className="font-semibold mt-4 mb-0.5 text-lg">Mô tả</Text>
+              <View>
+                <Text numberOfLines={!showALL ? 4 : undefined}>{book.description}</Text>
+                <TouchableOpacity onPress={() => setShowAll(!showALL)}>
+                  <Text className="text-[#1E40AF] mt-0.5">{!showALL ? 'Xem thêm' : 'Thu gọn'}</Text>
+                </TouchableOpacity>
               </View>
+              <Text className="font-semibold mt-4 mb-0.5 text-lg">Đánh giá cuốn sách này</Text>
+              <View className="flex flex-row justify-between mt-2 items-center">
+                <View className="flex flex-row gap-1">
+                  {[1, 2, 3, 4, 5].map((elm) => (
+                    <EvilIcons key={elm} name="star" size={24} color="#EE4F1C" />
+                  ))}
+                </View>
+                <TouchableOpacity
+                  className={`p-2 border rounded-[10px]  ${isCommented ? 'border-green-600' : 'border-[#EE4F1C]'}`}
+                  onPress={() =>
+                    router.push({ pathname: '/evaluate-screen', params: { bookId: book.id } })
+                  }
+                  disabled={isCommented}
+                >
+                  <Text className={`${isCommented ? 'text-green-600' : 'text-[#EE4F1C]'}`}>
+                    {isCommented ? 'Đã đánh giá' : 'Viết đánh giá'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Text className="font-semibold mt-4 mb-0.5 text-lg">Đánh giá & nhận xét</Text>
+              {listComment.map((item, index) => (
+                <View key={index}>
+                  <CommentCard username={item.userId} rating={item.rating} comment={item.comment} />
+                </View>
+              ))}
+            </ScrollView>
+            <View className="flex flex-row justify-between pt-2">
+              <View>
+                <Text className="text-[#6B7280]">Giá</Text>
+                <Text className="font-semibold text-xl">{formatCurrencyVND(book.price)}</Text>
+              </View>
+              <CustomButton
+                title={'Mua ngay'}
+                containerStyle="px-2"
+                onPress={() =>
+                  router.push({ pathname: '/detail-buybook', params: { bookId: book.id } })
+                }
+              />
             </View>
-          </View>
-          <View className="flex-row flex items-center bg-[#EE4F1C1A] mt-4 rounded-[16px] px-[12px] py-[8px]">
-            <TouchableOpacity onPress={togglePlayPause}>
-              <AntDesign name="play" size={24} color="#EE4F1C" />
-            </TouchableOpacity>
-            <View className="ml-2">
-              <Text className="font-semibold">{item.name}</Text>
-              <Text className="text-xs">{item.author}</Text>
-            </View>
-          </View>
-          <Text className="font-semibold mt-4 mb-0.5 text-lg">Mô tả</Text>
-          <View>
-            <Text numberOfLines={!showALL ? 4 : undefined}>{item.description}</Text>
-            <TouchableOpacity onPress={() => setShowAll(!showALL)}>
-              <Text className="text-[#1E40AF] mt-0.5">{!showALL ? 'Xem thêm' : 'Thu gọn'}</Text>
-            </TouchableOpacity>
-          </View>
-          <Text className="font-semibold mt-4 mb-0.5 text-lg">Đánh giá cuốn sách này</Text>
-          <View className="flex flex-row justify-between mt-2 items-center">
-            <View className="flex flex-row gap-1">
-              <EvilIcons name="star" size={24} color="#EE4F1C" />
-              <EvilIcons name="star" size={24} color="#EE4F1C" />
-              <EvilIcons name="star" size={24} color="#EE4F1C" />
-              <EvilIcons name="star" size={24} color="#EE4F1C" />
-              <EvilIcons name="star" size={24} color="#EE4F1C" />
-            </View>
-            <TouchableOpacity
-              className="p-2 border rounded-[10px] border-[#EE4F1C]"
-              onPress={() => router.push('/evaluate-screen')}
-            >
-              <Text className="text-[#EE4F1C]">Viết đánh giá</Text>
-            </TouchableOpacity>
-          </View>
-          <Text className="font-semibold mt-4 mb-0.5 text-lg">Đánh giá & nhận xét</Text>
-          {[1, 2, 3].map((item, index) => (
-            <View key={index}>{renderComment()}</View>
-          ))}
-        </ScrollView>
-        <View className="flex flex-row justify-between pt-2">
-          <View>
-            <Text className="text-[#6B7280]">Giá</Text>
-            <Text className="font-semibold text-xl">{formatCurrencyVND(item.price)}</Text>
-          </View>
-          <CustomButton
-            title={'Mua ngay'}
-            containerStyle="px-2"
-            onPress={() => router.push('/detail-buybook')}
-          />
-        </View>
+          </>
+        ) : (
+          <LoadingAnimation />
+        )}
       </View>
     </SafeAreaView>
   )
