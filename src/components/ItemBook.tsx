@@ -26,9 +26,7 @@ export default function ItemBook({ type, data }: ItemBookProps) {
     <TouchableOpacity
       className="bg-[#F3F4F6] rounded-[20px] mr-2"
       style={{ width: calculatedWidth }}
-      onPress={() =>
-        router.push({ pathname: '/detail-book', params: { data: JSON.stringify(data) } })
-      }
+      onPress={() => router.push({ pathname: '/detail-book', params: { bookId: data.id } })}
     >
       <View className="h-[228px] relative" style={{ width: calculatedWidth }}>
         <Image

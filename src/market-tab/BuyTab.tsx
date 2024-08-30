@@ -1,8 +1,13 @@
 import { FlatList, View } from 'react-native'
 import ItemBookMarket from '@/components/ItemBookMarket'
 import { images } from '@/constants'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router'
+import { IBook, IPurchaseBook } from '@/types/book'
+import { IQueryOptions, queryDocuments } from '@/firebase/api'
+import { EQueryOperator } from '@/firebase/type'
+import { useAppSelector } from '@/redux'
+import { LoadingAnimation } from '@/components/LoadingAnimation'
 
 const fakeData = [
   {
@@ -18,16 +23,41 @@ const fakeData = [
 ]
 
 export default function BuyTab() {
+  const user = useAppSelector((state) => state.user.user)
+
+  const [bookPurchased, setBookPurchased] = useState<IBook[] | null>(null)
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const queryOptions: IQueryOptions = {
+        property: 'userId',
+        queryOperator: EQueryOperator.EQUAL,
+        value: user.uid,
+      }
+      const listPurchased = await queryDocuments<IPurchaseBook[]>('purchases', queryOptions)
+      const listBookId = listPurchased?.map((item) => item.bookId)
+
+      const listBooks = await queryDocuments<IBook[]>('book-radio', {
+        property: 'id',
+        queryOperator: EQueryOperator.IN,
+        value: listBookId,
+      })
+      setBookPurchased(listBooks)
+    }
+    fetchBooks()
+  }, [user.uid])
   return (
     <View className="flex-1">
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal={false}
-        data={fakeData}
-        renderItem={(item) => (
-          <ItemBookMarket data={item.item} onPress={() => router.push('/detail-buybook')} />
-        )}
-      />
+      {bookPurchased ? (
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal={false}
+          data={bookPurchased}
+          renderItem={(item) => <ItemBookMarket data={item.item} onPress={() => {}} />}
+        />
+      ) : (
+        <LoadingAnimation />
+      )}
     </View>
   )
 }

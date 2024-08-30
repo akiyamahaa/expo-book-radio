@@ -13,15 +13,16 @@ import ItemBook from '@/components/ItemBook'
 import TitleHome from '@/components/TitleHome'
 import { getAllDocuments } from '@/firebase/api'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
+import { IBook } from '@/types/book'
 
 const Home = () => {
   const [activeTab, setActiveTab] = React.useState(1)
-  const [listDataHome, setListDataHome] = useState<any>([])
+  const [listDataHome, setListDataHome] = useState<IBook[] | null>([])
   const [dataRead, setDataRead] = useState<any>([])
   const [dataRadio, setDataRadio] = useState<any>([])
 
   const renderData = async () => {
-    const a = await getAllDocuments('book-radio')
+    const a = await getAllDocuments<IBook[]>('book-radio')
     setListDataHome(a)
   }
 
@@ -40,7 +41,9 @@ const Home = () => {
     <SafeAreaView className="bg-white pb-6 flex-1">
       <View className="mx-4 flex-1">
         <HeaderHome title="LOGO" />
-        {!listDataHome.length > 0 && !(dataRead.length > 0 || dataRadio.length > 0) ? (
+        {listDataHome &&
+        !(listDataHome.length > 0) &&
+        !(dataRead.length > 0 || dataRadio.length > 0) ? (
           <LoadingAnimation />
         ) : (
           <ScrollView showsVerticalScrollIndicator={false} className="flex-1 mb-2">
