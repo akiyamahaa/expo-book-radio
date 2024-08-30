@@ -7,68 +7,33 @@ import { images } from '@/constants'
 import CustomButton from '@/components/CustomButton'
 import { Checkbox } from 'expo-checkbox'
 import { setUser } from '@/redux/userSlice'
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
+import { Ionicons } from '@expo/vector-icons'
 
 const SignIn = () => {
-  const [isChecked, setChecked] = useState(false);
-  const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // const [user, setUser] = useState(null); // Track user authentication state
-  const [isLogin, setIsLogin] = useState(true);
-  const [error, setError] = useState(null);
+  const [isChecked, setChecked] = useState(false)
+  const dispatch = useAppDispatch()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth(firebaseApp)
   const handleAuthentication = async () => {
     setLoading(true)
-
-    // try {
-    //   if (user) {
-    //     // If user is already authenticated, log out
-    //     console.log('User logged out successfully!');
-    //     await signOut(auth);
-    //   } else {
-    //     // Sign in or sign up
-    //     if (isLogin) {
-    //       // Sign in
-    //       await signInWithEmailAndPassword(auth, email, password).then((res) => {
-    //         console.log(res.user)
-    //         dispatch(setUser(res.user))
-    //       });
-    //       console.log('User signed in successfully!');
-    //     } else {
-    //       // Sign up
-    //       await createUserWithEmailAndPassword(auth, email, password);
-    //       console.log('User created successfully!');
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error('Authentication error:', error.message);
-    // }
     try {
-      if (isLogin) {
-        // Sign in
-        await signInWithEmailAndPassword(auth, email, password).then((res) => {
-          setLoading(false)
-          dispatch(setUser({user: res.user}))
-           router.push(ERouteTable.HOME)
-        });
-
-        console.log('User signed in successfully!');
-      } else {
-        // Sign up
-        await createUserWithEmailAndPassword(auth, email, password);
-        console.log('User created successfully!');
-      }
+      await signInWithEmailAndPassword(auth, email, password).then((res) => {
+        setLoading(false)
+        dispatch(setUser({ user: res.user }))
+        router.push(ERouteTable.HOME)
+      })
     } catch (error) {
+      alert(error.message ? error.message : 'Đăng nhập thất bại, vui lòng thử lại!')
       setLoading(false)
-      setError(error.message)
     }
-  };
-
+  }
 
   return (
     <>
@@ -80,7 +45,9 @@ const SignIn = () => {
             resizeMode="contain"
           />
           <Text className="text-center text-2xl font-bold mt-10">Đăng nhập</Text>
-          <Text className="mt-2 mb-4 text-center text-gray-500">Đăng nhập vào tài khoản của bạn</Text>
+          <Text className="mt-2 mb-4 text-center text-gray-500">
+            Đăng nhập vào tài khoản của bạn
+          </Text>
 
           <TextInput
             className="border p-3 border-gray-300 rounded-2xl"
@@ -89,14 +56,23 @@ const SignIn = () => {
               setEmail(e)
             }}
           />
-          <TextInput
-            className="border mt-4 p-3 border-gray-300 rounded-2xl"
-            placeholder="Mật khẩu"
-            onChangeText={(e) => {
-              setPassword(e)
-            }}
-          />
-          {error && <Text className="text-red-500">{error}</Text>}
+          <View className="relative">
+            <TextInput
+              className="border mt-4 p-3 border-gray-300 rounded-2xl"
+              placeholder="Mật khẩu"
+              secureTextEntry={!isPasswordVisible}
+              onChangeText={(e) => {
+                setPassword(e)
+              }}
+            />
+            <TouchableOpacity
+              className="absolute right-5 top-7"
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            >
+              <Ionicons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color="gray" />
+            </TouchableOpacity>
+          </View>
+
           <View className="flex mt-4 flex-row justify-between items-center">
             <View className="flex flex-row gap-2 items-center">
               <Checkbox value={isChecked} onValueChange={setChecked} />
@@ -115,18 +91,16 @@ const SignIn = () => {
             textStyle="text-white"
             isLoading={loading}
           />
-
         </View>
       </SafeAreaView>
       <View className="w-full bg-white">
         <View className="flex-row gap-1 flex text-center pb-10 mx-auto">
           <Text>Bạn chưa có tài khoản?</Text>
-          <TouchableOpacity  onPress={() => router.push(ERouteTable.SIGIN_UP)}>
+          <TouchableOpacity onPress={() => router.push(ERouteTable.SIGIN_UP)}>
             <Text className="text-[#2D68F8] font-bold">Đăng ký</Text>
           </TouchableOpacity>
         </View>
       </View>
-
     </>
   )
 }

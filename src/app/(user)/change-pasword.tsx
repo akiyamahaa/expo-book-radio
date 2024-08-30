@@ -6,7 +6,7 @@ import { ERouteTable } from '@/constants/route-table'
 import CustomButton from '@/components/CustomButton'
 
 export default function ChangePasword() {
-  return(
+  return (
     <SafeAreaView className="px-4 bg-white pb-6 flex-1">
       <View className="flex-row flex items-center pb-2 relative mb-8 border-b border-b-[#D1D5DB]">
         <TouchableOpacity onPress={() => router.back()} className="absolute ml-4 bottom-2">
@@ -15,7 +15,9 @@ export default function ChangePasword() {
         <Text className="font-bold text-xl m-auto">Đổi mật khẩu</Text>
       </View>
       <View className="mx-4">
-        <Text className="text-sm text-gray-700">Mật khẩu mới của bạn phải khác với mật khẩu đã sử dụng trước đó</Text>
+        <Text className="text-sm text-gray-700">
+          Mật khẩu mới của bạn phải khác với mật khẩu đã sử dụng trước đó
+        </Text>
         <TextInput
           className="border h-[50px] mt-4 p-3 border-gray-300 rounded-2xl"
           placeholder="Mật khẩu cũ"

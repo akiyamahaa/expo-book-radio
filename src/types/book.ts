@@ -18,7 +18,7 @@ export interface IBook {
   categories: string
   type: EBookType
   author: string
-  pages: number 
+  pages: number
   chapters: number
   price: number
   rating?: number

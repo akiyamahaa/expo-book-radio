@@ -5,25 +5,25 @@ import ItemBook from '@/components/ItemBook'
 
 const fakeData = [
   {
-    id: "asjsajdaskjdkals",
+    id: 'asjsajdaskjdkals',
     image: images.logoApp,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
   {
-    id: "asjsajdaskjddsadakals",
+    id: 'asjsajdaskjddsadakals',
     image: images.thumbnail,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
   {
-    id: "asjsajdaskjddsadadassddakals",
+    id: 'asjsajdaskjddsadadassddakals',
     image: images.thumbnail,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
 ]
 

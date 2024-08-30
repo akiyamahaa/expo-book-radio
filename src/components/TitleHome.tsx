@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 
 interface ITitleHomeProps {
-  title: string;
-  onPress?: () => void;
-  isShow?: boolean;
+  title: string
+  onPress?: () => void
+  isShow?: boolean
 }
 
-export default function TitleHome({title, onPress, isShow}: ITitleHomeProps) {
-  return(
+export default function TitleHome({ title, onPress, isShow }: ITitleHomeProps) {
+  return (
     <View className="flex-row flex justify-between py-3 items-center">
       <Text className="text-xl font-bold text-[#EE4F1C]">{title}</Text>
       {!isShow && (

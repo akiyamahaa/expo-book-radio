@@ -7,8 +7,8 @@ interface IHeaderHome {
   title: string
 }
 
-export default function HeaderHome({title}: IHeaderHome) {
-  return(
+export default function HeaderHome({ title }: IHeaderHome) {
+  return (
     <View className="flex-row flex justify-between items-center pb-2">
       <Image
         source={images.logoApp}
@@ -16,7 +16,7 @@ export default function HeaderHome({title}: IHeaderHome) {
         resizeMode="contain"
       />
       <Text className="font-bold text-primary-600 text-xl">{title}</Text>
-      <TouchableOpacity  onPress={() => router.push('/search')}>
+      <TouchableOpacity onPress={() => router.push('/search')}>
         <EvilIcons name="search" size={30} color="#6B7280" />
       </TouchableOpacity>
     </View>

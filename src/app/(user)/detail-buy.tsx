@@ -1,20 +1,29 @@
-import { Button, SafeAreaView, TextInput, TouchableOpacity, View, Text, ScrollView, Image } from 'react-native'
+import {
+  Button,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+  ScrollView,
+  Image,
+} from 'react-native'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form'
 import CustomButton from '@/components/CustomButton'
 import React, { useState } from 'react'
 
 export default function DetailBuy() {
-    const {
-      control,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({});
-  const [image, setImage] = useState(null);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({})
+  const [image, setImage] = useState(null)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -23,28 +32,30 @@ export default function DetailBuy() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
+    })
 
-    console.log(result);
+    console.log(result)
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0].uri)
     }
-  };
+  }
 
+  const onSubmit = (data) => {
+    console.log(data)
+  }
 
-  const onSubmit = data => {
-      console.log(data);
-    };
-
-  return(
+  return (
     <SafeAreaView className="bg-white pb-6 flex-1">
       <View className="mx-4">
-        <HeaderComponent title="Bán sách" iconLeft={
-          <TouchableOpacity onPress={() => router.back()}>
-            <AntDesign name="left" size={24} color="black" />
-          </TouchableOpacity>
-        } />
+        <HeaderComponent
+          title="Bán sách"
+          iconLeft={
+            <TouchableOpacity onPress={() => router.back()}>
+              <AntDesign name="left" size={24} color="black" />
+            </TouchableOpacity>
+          }
+        />
       </View>
       <ScrollView className="mx-4" showsVerticalScrollIndicator={false}>
         <Controller
@@ -160,14 +171,18 @@ export default function DetailBuy() {
             </View>
           )}
         />
-        <TouchableOpacity onPress={pickImage} className="border-dashed border h-[172px] rounded-[20px] mt-8 flex items-center justify-center">
-          {image ? <Image source={{ uri: image }} className="h-[140px] w-[90px] rounded-[8px]" /> : (
+        <TouchableOpacity
+          onPress={pickImage}
+          className="border-dashed border h-[172px] rounded-[20px] mt-8 flex items-center justify-center"
+        >
+          {image ? (
+            <Image source={{ uri: image }} className="h-[140px] w-[90px] rounded-[8px]" />
+          ) : (
             <View className="flex items-center justify-center flex-col">
               <MaterialCommunityIcons name="image-plus" size={48} color="#EE4F1C" />
               <Text className="mt-2 font-semibold text-[#6B7280]">Tải lên hình ảnh sách</Text>
             </View>
           )}
-
         </TouchableOpacity>
         <CustomButton
           title="Thêm sách"
@@ -176,7 +191,6 @@ export default function DetailBuy() {
           textStyle="text-white"
         />
       </ScrollView>
-
     </SafeAreaView>
   )
 }

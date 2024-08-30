@@ -9,9 +9,8 @@ import { useDispatch } from 'react-redux'
 import { removeUser } from '@/redux/userSlice'
 
 const Profile = () => {
-  const [activeNotify, setActiveNotify] = useState<boolean>(false);
-  const dispatch = useDispatch();
-
+  const [activeNotify, setActiveNotify] = useState<boolean>(false)
+  const dispatch = useDispatch()
 
   return (
     <SafeAreaView className="px-4 bg-white pb-6 flex-1">
@@ -32,16 +31,15 @@ const Profile = () => {
           onPress={() => router.navigate('/edit-profile')}
         >
           <View className="flex flex-row gap-2 items-center">
-            <Image
-              source={images.iconProfile}
-              className="w-[48px] h-[48px]"
-              resizeMode="cover"
-            />
+            <Image source={images.iconProfile} className="w-[48px] h-[48px]" resizeMode="cover" />
             <Text className="font-bold text-base">Thông tin</Text>
           </View>
           <AntDesign name="right" size={20} color="#6B7280" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.navigate('/change-pasword')} className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2">
+        <TouchableOpacity
+          onPress={() => router.navigate('/change-pasword')}
+          className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2"
+        >
           <View className="flex flex-row gap-2 items-center">
             <Image
               source={images.iconChangePass}
@@ -63,16 +61,15 @@ const Profile = () => {
           </View>
           <Switch value={activeNotify} onChange={() => setActiveNotify(!activeNotify)} />
         </View>
-        <TouchableOpacity onPress={() => {
-          router.push(ERouteTable.SIGIN_IN)
-          dispatch(removeUser())
-        }} className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2">
+        <TouchableOpacity
+          onPress={() => {
+            router.push(ERouteTable.SIGIN_IN)
+            dispatch(removeUser())
+          }}
+          className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2"
+        >
           <View className="flex flex-row gap-2 items-center">
-            <Image
-              source={images.iconLogout}
-              className="w-[48px] h-[48px]"
-              resizeMode="cover"
-            />
+            <Image source={images.iconLogout} className="w-[48px] h-[48px]" resizeMode="cover" />
             <Text className="font-bold text-base">Đăng xuất</Text>
           </View>
         </TouchableOpacity>

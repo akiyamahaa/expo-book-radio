@@ -1,74 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import TrackPlayer, {
   Capability,
   State,
   usePlaybackState,
   useProgress,
-} from 'react-native-track-player';
-import Slider from '@react-native-community/slider';
+} from 'react-native-track-player'
+import Slider from '@react-native-community/slider'
 
 const MusicPlayer: React.FC = () => {
-  const playbackState = usePlaybackState();
-  const progress = useProgress();
+  const playbackState = usePlaybackState()
+  const progress = useProgress()
 
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
   useEffect(() => {
-    setupPlayer();
+    setupPlayer()
     return () => {
-      TrackPlayer.reset(); // Use reset instead of destroy
-    };
-  }, []);
+      TrackPlayer.reset() // Use reset instead of destroy
+    }
+  }, [])
 
   const setupPlayer = async () => {
-    await TrackPlayer.setupPlayer();
+    await TrackPlayer.setupPlayer()
     await TrackPlayer.add({
       id: 'trackId',
       url: 'https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw',
       title: 'Track Title',
       artist: 'Track Artist',
-    });
+    })
 
     TrackPlayer.updateOptions({
       stopWithApp: true,
-      capabilities: [
-        Capability.Play,
-        Capability.Pause,
-        Capability.SeekTo,
-      ],
-      compactCapabilities: [
-        Capability.Play,
-        Capability.Pause,
-      ],
-    });
-  };
+      capabilities: [Capability.Play, Capability.Pause, Capability.SeekTo],
+      compactCapabilities: [Capability.Play, Capability.Pause],
+    })
+  }
 
   const togglePlayPause = async () => {
     if (playbackState === State.Playing) {
-      await TrackPlayer.pause();
-      setIsPlaying(false);
+      await TrackPlayer.pause()
+      setIsPlaying(false)
     } else {
-      await TrackPlayer.play();
-      setIsPlaying(true);
+      await TrackPlayer.play()
+      setIsPlaying(true)
     }
-  };
+  }
 
   const skipForward = async () => {
-    let newPosition = progress.position + 10;
-    if (newPosition > progress.duration) newPosition = progress.duration;
-    await TrackPlayer.seekTo(newPosition);
-  };
+    let newPosition = progress.position + 10
+    if (newPosition > progress.duration) newPosition = progress.duration
+    await TrackPlayer.seekTo(newPosition)
+  }
 
   const skipBackward = async () => {
-    let newPosition = progress.position - 10;
-    if (newPosition < 0) newPosition = 0;
-    await TrackPlayer.seekTo(newPosition);
-  };
+    let newPosition = progress.position - 10
+    if (newPosition < 0) newPosition = 0
+    await TrackPlayer.seekTo(newPosition)
+  }
 
   const onSliderValueChange = async (value: number) => {
-    await TrackPlayer.seekTo(value);
-  };
+    await TrackPlayer.seekTo(value)
+  }
 
   return (
     <View style={styles.container}>
@@ -92,8 +85,8 @@ const MusicPlayer: React.FC = () => {
         <Text style={styles.buttonText}>🔊</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -112,6 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
   },
-});
+})
 
-export default MusicPlayer;
+export default MusicPlayer

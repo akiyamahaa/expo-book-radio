@@ -9,27 +9,30 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { setUser } from '@/redux/userSlice'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
+import { Ionicons } from '@expo/vector-icons'
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const auth = getAuth(firebaseApp);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const auth = getAuth(firebaseApp)
   const [loading, setLoading] = useState(false)
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [isReEnterPasswordVisible, setReEnterIsPasswordVisible] = useState(false)
 
   const handleAuthentication = async () => {
     setLoading(true)
     try {
       await createUserWithEmailAndPassword(auth, email, password).then((res) => {
-        dispatch(setUser({user: res.user}))
+        dispatch(setUser({ user: res.user }))
         router.push(ERouteTable.VERIFY_ACCOUNT)
         setLoading(false)
-      });
+      })
     } catch (error) {
+      alert(error.message ? error.message : 'Đăng ký thất bại, vui lòng thử lại!')
       setLoading(false)
-      console.log(error.message)
     }
-  };
+  }
 
   return (
     <>
@@ -43,10 +46,7 @@ const SignUp = () => {
           <Text className="text-center text-2xl font-bold mt-10">Đăng ký</Text>
           <Text className="mt-2 mb-4 text-center text-gray-500">Đăng ký tài khoản của bạn</Text>
 
-          <TextInput
-            className="border p-3 border-gray-300 rounded-2xl"
-            placeholder="Tên"
-          />
+          <TextInput className="border p-3 border-gray-300 rounded-2xl" placeholder="Tên" />
           <TextInput
             className="border mt-4 p-3 border-gray-300 rounded-2xl"
             placeholder="Email"
@@ -54,19 +54,40 @@ const SignUp = () => {
               setEmail(e)
             }}
           />
-          <TextInput
-            className="border mt-4 p-3 border-gray-300 rounded-2xl"
-            placeholder="Mật khẩu"
-            inputMode="password"
-            onChangeText={(e) => {
-              setPassword(e)
-            }}
-          />
-          <TextInput
-            className="border mt-4 p-3 border-gray-300 rounded-2xl"
-            placeholder="Nhập lại mật khẩu"
-            inputMode="password"
-          />
+          <View className="relative">
+            <TextInput
+              className="border mt-4 p-3 border-gray-300 rounded-2xl"
+              placeholder="Mật khẩu"
+              secureTextEntry={!isPasswordVisible}
+              onChangeText={(e) => {
+                setPassword(e)
+              }}
+            />
+            <TouchableOpacity
+              className="absolute right-5 top-7"
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            >
+              <Ionicons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color="gray" />
+            </TouchableOpacity>
+          </View>
+
+          <View className="relative">
+            <TextInput
+              className="border mt-4 p-3 border-gray-300 rounded-2xl"
+              placeholder="Nhập lại mật khẩu"
+              secureTextEntry={!isReEnterPasswordVisible}
+            />
+            <TouchableOpacity
+              className="absolute right-5 top-7"
+              onPress={() => setReEnterIsPasswordVisible(!isReEnterPasswordVisible)}
+            >
+              <Ionicons
+                name={isReEnterPasswordVisible ? 'eye' : 'eye-off'}
+                size={20}
+                color="gray"
+              />
+            </TouchableOpacity>
+          </View>
 
           <CustomButton
             title="Đăng ký"
@@ -75,7 +96,6 @@ const SignUp = () => {
             textStyle="text-white"
             isLoading={loading}
           />
-
         </View>
       </SafeAreaView>
       <View className="w-full bg-white">

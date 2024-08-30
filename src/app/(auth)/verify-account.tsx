@@ -6,13 +6,14 @@ import { router } from 'expo-router'
 import { ERouteTable } from '@/constants/route-table'
 
 const VerifyAccount = () => {
-
   return (
     <>
       <SafeAreaView className="bg-white h-full relative flex-1">
         <View className="mx-4">
           <Text className="text-center text-2xl font-bold mt-10">Xác thực tài khoản</Text>
-          <Text className="mt-2 text-center text-gray-500">Chúng tôi phải gửi mã xác minh tới email</Text>
+          <Text className="mt-2 text-center text-gray-500">
+            Chúng tôi phải gửi mã xác minh tới email
+          </Text>
           <Text className="mt-2 mb-4 font-bold text-center text-gray-500">***demo@gmail.com</Text>
           <TextInput
             className="border p-3 border-gray-300 rounded-2xl"

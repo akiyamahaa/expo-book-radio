@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 import CustomButton from '@/components/CustomButton'
 
 export default function EditProfile() {
-  return(
+  return (
     <SafeAreaView className="px-4 bg-white pb-6 flex-1">
       <View className="flex-row flex items-center pb-2 relative mb-8 border-b border-b-[#D1D5DB]">
         <TouchableOpacity onPress={() => router.back()} className="absolute ml-4 bottom-2">
@@ -22,11 +22,7 @@ export default function EditProfile() {
             resizeMode="cover"
           />
           <TouchableOpacity className="absolute bottom-0 right-0">
-            <Image
-              source={images.iconCamera}
-              className="w-[36px] h-[36px]"
-              resizeMode="cover"
-            />
+            <Image source={images.iconCamera} className="w-[36px] h-[36px]" resizeMode="cover" />
           </TouchableOpacity>
         </View>
         <TextInput
@@ -52,5 +48,4 @@ export default function EditProfile() {
       </View>
     </SafeAreaView>
   )
-
 }

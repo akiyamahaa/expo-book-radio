@@ -9,16 +9,20 @@ import CustomButton from '@/components/CustomButton'
 
 export default function EvaluateScreen() {
   const handleRating = (rating) => {
-    console.log('Selected Rating:', rating);
-  };
+    console.log('Selected Rating:', rating)
+  }
 
-  return(
+  return (
     <SafeAreaView className="bg-white h-full relative flex-1">
       <View className="mx-4 flex-1">
-        <HeaderComponent title={"Đánh giá & Nhận xét"} iconLeft={
-          <TouchableOpacity onPress={() => router.back()}>
-            <AntDesign name="left" size={24} color="#1F2937" />
-          </TouchableOpacity>} />
+        <HeaderComponent
+          title={'Đánh giá & Nhận xét'}
+          iconLeft={
+            <TouchableOpacity onPress={() => router.back()}>
+              <AntDesign name="left" size={24} color="#1F2937" />
+            </TouchableOpacity>
+          }
+        />
         <View className="items-center mt-12">
           <Text className="font-semibold text-base mb-4">Đánh giá</Text>
           <StarRating onRatingPress={handleRating} />
@@ -30,7 +34,7 @@ export default function EvaluateScreen() {
           numberOfLines={4}
           className="border my-2 h-[100px] p-3 border-gray-300 rounded-2xl"
         />
-        <CustomButton title="Gửi" containerStyle="absolute w-full bottom-2"  />
+        <CustomButton title="Gửi" containerStyle="absolute w-full bottom-2" />
       </View>
     </SafeAreaView>
   )

@@ -13,4 +13,19 @@ import iconProfile from '@/assets/icon-profile/iconProfile.png'
 import iconCamera from '@/assets/icon-profile/iconCamera.png'
 import iconPlay from '@/assets/icon-profile/iconPlay.png'
 
-export default {iconPlay, profile, thumbnail, cards, path, logo, logoSmall, empty, logoApp, iconCamera, iconChangePass, iconLogout, iconNotification, iconProfile}
+export default {
+  iconPlay,
+  profile,
+  thumbnail,
+  cards,
+  path,
+  logo,
+  logoSmall,
+  empty,
+  logoApp,
+  iconCamera,
+  iconChangePass,
+  iconLogout,
+  iconNotification,
+  iconProfile,
+}

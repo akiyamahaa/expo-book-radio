@@ -8,25 +8,25 @@ import { images } from '@/constants'
 
 const fakeData = [
   {
-    id: "asjsajdaskjdkals",
+    id: 'asjsajdaskjdkals',
     image: images.logoApp,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
   {
-    id: "asjsajdaskjddsadakals",
+    id: 'asjsajdaskjddsadakals',
     image: images.thumbnail,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
   {
-    id: "asjsajdaskjddsadadassddakals",
+    id: 'asjsajdaskjddsadadassddakals',
     image: images.thumbnail,
     name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: "Nguyen van a",
-    rating: 4
+    author: 'Nguyen van a',
+    rating: 4,
   },
 ]
 
@@ -34,9 +34,7 @@ const Search = () => {
   return (
     <SafeAreaView className="bg-white h-full relative flex-1">
       <View className="flex-row w-full items-center gap-2 mx-4 flex">
-        <TouchableOpacity
-          onPress={() => router.back()}
-        >
+        <TouchableOpacity onPress={() => router.back()}>
           <AntDesign name="left" size={24} color="black" />
         </TouchableOpacity>
         <TextInput
@@ -56,8 +54,6 @@ const Search = () => {
           </View>
         </ScrollView>
       </View>
-
-
     </SafeAreaView>
   )
 }

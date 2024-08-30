@@ -12,20 +12,24 @@ export default function DetailBuyBook() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm({})
 
+  const onSubmit = (data) => {
+    console.log(data)
+    router.back()
+  }
 
-  const onSubmit = data => {
-    console.log(data);
-    router.back();
-  };
-
-  return(
+  return (
     <SafeAreaView className="bg-white h-full relative flex-1">
       <View className="mx-4 flex-1">
-        <HeaderComponent title={"Thông tin mua sách"} iconLeft={<TouchableOpacity onPress={() => router.back()}>
-          <AntDesign name="left" size={24} color="black" />
-        </TouchableOpacity>} />
+        <HeaderComponent
+          title={'Thông tin mua sách'}
+          iconLeft={
+            <TouchableOpacity onPress={() => router.back()}>
+              <AntDesign name="left" size={24} color="black" />
+            </TouchableOpacity>
+          }
+        />
         <View className="flex-1 mt-3">
           <View className="pb-2 border-b border-b-[#D1D5DB]">
             <Text>Trương Học Vĩ</Text>
@@ -99,12 +103,9 @@ export default function DetailBuyBook() {
               </View>
             )}
           />
-
-
         </View>
         <CustomButton title="Hủy" onPress={onSubmit} />
       </View>
-
     </SafeAreaView>
   )
 }
