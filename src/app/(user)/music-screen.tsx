@@ -15,7 +15,6 @@ const MusicScreen = () => {
 
   return (
     <View style={{ flex: 1 }} colors={[colors.background]}>
-
       <View style={styles.overlayContainer}>
         {/*<DismissPlayerSymbol />*/}
         <HeaderComponent
@@ -45,10 +44,11 @@ const MusicScreen = () => {
                 {activeTrack.author}
               </Text>
             )}
-
           </View>
           {activeTrack?.name && (
-            <Text numberOfLines={2} className="text-white mt-2 font-semibold text-center text-xl">{activeTrack.name}</Text>
+            <Text numberOfLines={2} className="text-white mt-2 font-semibold text-center text-xl">
+              {activeTrack.name}
+            </Text>
           )}
           <View style={{ flex: 1 }}>
             <View>
