@@ -16,7 +16,6 @@ const MusicScreen = () => {
   return (
     <View style={{ flex: 1 }} colors={[colors.background]}>
       <View style={styles.overlayContainer}>
-        {/*<DismissPlayerSymbol />*/}
         <HeaderComponent
           title="Sách nói"
           iconLeft={

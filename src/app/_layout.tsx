@@ -1,6 +1,6 @@
 import { SplashScreen, Stack } from 'expo-router'
 import { useFonts } from 'expo-font'
-import { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from '@/redux'
 import service from '@/constants/playbackService'
@@ -10,6 +10,7 @@ import App from '@/app/index'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState'
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer'
+import ToastManager from 'expo-react-native-toastify'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -47,6 +48,7 @@ const RootLayout = () => {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
+        <ToastManager />
         <Stack screenOptions={{ headerShown: false }}></Stack>
       </GestureHandlerRootView>
     </Provider>

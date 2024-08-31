@@ -11,6 +11,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
 import { Ionicons } from '@expo/vector-icons'
+import { Toast } from 'expo-react-native-toastify'
 
 const SignIn = () => {
   const [isChecked, setChecked] = useState(false)
@@ -19,18 +20,26 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-
   const auth = getAuth(firebaseApp)
+
   const handleAuthentication = async () => {
     setLoading(true)
     try {
       await signInWithEmailAndPassword(auth, email, password).then((res) => {
+        const user = {
+          uid: res?.user.uid,
+          email: res?.user.email,
+          displayName: res?.user.displayName,
+          photoURL: res?.user.photoURL,
+          emailVerified: res?.user.emailVerified,
+        }
         setLoading(false)
-        dispatch(setUser({ user: res.user }))
-        router.push(ERouteTable.HOME)
+        dispatch(setUser(user))
+        Toast.success('Đăng nhập thành công!')
+        // router.push(ERouteTable.HOME)
       })
     } catch (error) {
-      alert(error.message ? error.message : 'Đăng nhập thất bại, vui lòng thử lại!')
+      Toast.error(error.message ? error.message : 'Đăng nhập thất bại, vui lòng thử lại!')
       setLoading(false)
     }
   }
