@@ -10,7 +10,7 @@ import App from '@/app/index'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState'
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer'
-import ToastManager from 'expo-react-native-toastify'
+import Toast from 'react-native-toast-message'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -48,8 +48,8 @@ const RootLayout = () => {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ToastManager />
         <Stack screenOptions={{ headerShown: false }}></Stack>
+        <Toast />
       </GestureHandlerRootView>
     </Provider>
   )

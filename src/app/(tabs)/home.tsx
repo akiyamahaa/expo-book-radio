@@ -1,12 +1,4 @@
-import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import HeaderHome from '@/components/HeaderHome'
 import ItemBook from '@/components/ItemBook'
@@ -100,5 +92,3 @@ const Home = () => {
 }
 
 export default Home
-
-const styles = StyleSheet.create({})

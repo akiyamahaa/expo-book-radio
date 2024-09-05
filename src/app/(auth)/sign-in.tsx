@@ -1,4 +1,4 @@
-import { Image, StyleSheet, TextInput, View, Text, TouchableOpacity } from 'react-native'
+import { Image, TextInput, View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { ERouteTable } from '@/constants/route-table'
@@ -11,7 +11,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
 import { Ionicons } from '@expo/vector-icons'
-import { Toast } from 'expo-react-native-toastify'
+import Toast from 'react-native-toast-message'
 
 const SignIn = () => {
   const [isChecked, setChecked] = useState(false)
@@ -33,13 +33,19 @@ const SignIn = () => {
           photoURL: res?.user.photoURL,
           emailVerified: res?.user.emailVerified,
         }
-        setLoading(false)
         dispatch(setUser(user))
-        Toast.success('Đăng nhập thành công!')
-        // router.push(ERouteTable.HOME)
+        Toast.show({
+          type: 'success',
+          text1: 'Đăng nhập thành công! 👋',
+        })
+        router.push(ERouteTable.HOME)
       })
-    } catch (error) {
-      Toast.error(error.message ? error.message : 'Đăng nhập thất bại, vui lòng thử lại!')
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: error.message ? error.message : 'Đăng nhập thất bại, vui lòng thử lại!',
+      })
+    } finally {
       setLoading(false)
     }
   }
@@ -115,5 +121,3 @@ const SignIn = () => {
 }
 
 export default SignIn
-
-const styles = StyleSheet.create({})

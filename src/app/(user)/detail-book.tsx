@@ -1,12 +1,4 @@
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
@@ -15,7 +7,7 @@ import { images } from '@/constants'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
-import TrackPlayer from 'react-native-track-player'
+import TrackPlayer, { Track } from 'react-native-track-player'
 import { IBook, IComment } from '@/types/book'
 import { getAllDocuments, getOneDocument, IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'
@@ -57,17 +49,19 @@ export default function DetailBook() {
   const params = useLocalSearchParams<{ bookId: string }>()
   const { bookId } = params
   const [listComment, setListComment] = useState<IComment[]>([])
-  const [book, setBook] = useState<IBook | null>(null)
+  const [book, setBook] = useState<any | null>(null)
   const [isCommented, setIsCommented] = useState(false)
 
-  const [listDataHome, setListDataHome] = useState<any>([])
+  const [listDataHome, setListDataHome] = useState<any[]>([])
 
   const queueOffset = useRef(0)
   const { activeQueueId, setActiveQueueId } = useQueue()
 
   const renderData = async () => {
-    const a = await getAllDocuments('book-radio')
-    setListDataHome(a)
+    const a: IBook[] | null = await getAllDocuments('book-radio')
+    if (a) {
+      setListDataHome(a)
+    }
   }
 
   useEffect(() => {
@@ -75,6 +69,7 @@ export default function DetailBook() {
   }, [])
 
   const togglePlayPause = async () => {
+    if (!book) return // Ensure `book` is not null
     const trackIndex = listDataHome.findIndex((track) => track.url === book.url)
 
     console.log(trackIndex, '---vtrackIndex')
@@ -122,16 +117,18 @@ export default function DetailBook() {
           value: bookId,
         }
 
-        const list: IComment[] = await queryDocuments('comments', queryOptions)
+        const list: IComment[] | null = await queryDocuments('comments', queryOptions)
 
-        const isCheck = list.some((comment) => comment.userId === user.uid)
-        setIsCommented(isCheck)
-        setListComment(list)
+        if (list) {
+          const isCheck = list.some((comment) => comment.userId === user!.uid)
+          setIsCommented(isCheck)
+          setListComment(list)
+        }
       }
 
       fetchBookDetail()
       fetchAllComment()
-    }, [bookId, user.uid]),
+    }, [bookId, user]),
   )
 
   return (
@@ -247,16 +244,3 @@ export default function DetailBook() {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-  },
-  slider: {
-    flex: 1,
-    marginHorizontal: 10,
-  },
-})

@@ -5,6 +5,7 @@ interface IHeaderComponentProps {
   title: string
   iconRight?: any
   styleHeader?: string
+  styleTitle?:string
 }
 
 export default function HeaderComponent({
@@ -12,12 +13,13 @@ export default function HeaderComponent({
   title,
   iconRight,
   styleHeader,
+  styleTitle
 }: IHeaderComponentProps) {
   return (
     <View className={`flex flex-row justify-between mb-2 ${styleHeader}`}>
       <View>{iconLeft && iconLeft}</View>
       <View>
-        <Text className="text-xl font-bold text-primary-600">{title}</Text>
+        <Text className={`text-xl font-bold text-primary-600 ${styleTitle}`}>{title}</Text>
       </View>
       <View>{iconRight && iconRight}</View>
     </View>

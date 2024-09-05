@@ -33,14 +33,13 @@ export default function CellTab() {
       const queryOptions: IQueryOptions = {
         property: 'userId',
         queryOperator: EQueryOperator.EQUAL,
-        value: user.uid,
+        value: user!.uid,
       }
       const listPurchased = await queryDocuments<ISellBook[]>('sells', queryOptions)
-      console.log('🚀 ~ fetchBooks ~ listPurchased:', listPurchased)
       setBookSell(listPurchased)
     }
     fetchBooks()
-  }, [user.uid])
+  }, [user])
   return (
     <View className="flex-1">
       {bookSell ? (
