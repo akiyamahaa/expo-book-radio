@@ -36,7 +36,6 @@ export default function CellTab() {
         value: user!.uid,
       }
       const listPurchased = await queryDocuments<ISellBook[]>('sells', queryOptions)
-      console.log('🚀 ~ fetchBooks ~ listPurchased:', listPurchased)
       setBookSell(listPurchased)
     }
     fetchBooks()

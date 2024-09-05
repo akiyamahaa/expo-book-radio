@@ -119,7 +119,6 @@ const customQueryDocuments = async (q: Query<DocumentData, DocumentData>) => {
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, ' => ', doc.data())
       allDocs.push(doc.data())
     })
     return allDocs
