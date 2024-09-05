@@ -43,7 +43,7 @@ const Favourite = () => {
   return (
     <SafeAreaView className="bg-white pb-6 flex-1">
       <Text className="text-xl font-semibold text-center mb-2">Yêu thích</Text>
-      {listDataFavourite && listDataFavourite.length > 0 && (
+      {listDataFavourite && listDataFavourite?.length > 0 && (
         <ScrollView showsVerticalScrollIndicator={false} className="mb-2 mx-4">
           <View className="flex flex-wrap flex-row gap-2 justify-between">
             {listDataFavourite.map((item) => (
