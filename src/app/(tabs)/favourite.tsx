@@ -1,49 +1,61 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { images } from '@/constants'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ItemBook from '@/components/ItemBook'
-
-const fakeData = [
-  {
-    id: 'asjsajdaskjdkals',
-    image: images.logoApp,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-  {
-    id: 'asjsajdaskjddsadakals',
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-  {
-    id: 'asjsajdaskjddsadadassddakals',
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-]
+import { getAllDocuments } from '@/firebase/api'
+import { IBook } from '@/types/book'
+import { useIsFocused } from '@react-navigation/core'
+import { useAppSelector } from '@/redux'
 
 const Favourite = () => {
+  const [listDataHome, setListDataHome] = useState<IBook[] | null>([])
+  const isFocus = useIsFocused()
+  const user = useAppSelector((state) => state.user.user)
+  const [listDataWishList, setListDataWishList] = useState<any[]>([])
+  const [listDataFavourite, setListDataFavourite] = useState<any[]>([])
+
+  const renderData = async () => {
+    const a = await getAllDocuments<IBook[]>('book-radio')
+    setListDataHome(a)
+    const b: any[] | null = await getAllDocuments('wishlist')
+    if (b) {
+      setListDataWishList(b)
+    }
+  }
+
+  useEffect(() => {
+    renderData()
+  }, [isFocus])
+
+  useEffect(() => {
+    if (listDataWishList && listDataWishList?.length > 0) {
+      const listCheckHeart = listDataWishList.filter((item) => item.userId === user?.uid)
+      if (listCheckHeart && listCheckHeart.length > 0 && listDataHome && listDataHome.length > 0) {
+        const commonElements = listDataHome.filter((item1) =>
+          listCheckHeart.find((item2) => item1.id === item2.bookId),
+        )
+        if (commonElements && commonElements.length > 0) {
+          setListDataFavourite(commonElements)
+        }
+      }
+    }
+  }, [listDataHome, listDataWishList])
+
   return (
     <SafeAreaView className="bg-white pb-6 flex-1">
       <Text className="text-xl font-semibold text-center mb-2">Yêu thích</Text>
-      <ScrollView showsVerticalScrollIndicator={false} className="mb-2 mx-4">
-        <View className="flex flex-wrap flex-row gap-2 justify-between">
-          {fakeData.map((item) => (
-            <View key={item.id}>
-              <ItemBook type="play" data={item} />
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+      {listDataFavourite && listDataFavourite.length > 0 && (
+        <ScrollView showsVerticalScrollIndicator={false} className="mb-2 mx-4">
+          <View className="flex flex-wrap flex-row gap-2 justify-between">
+            {listDataFavourite.map((item) => (
+              <View key={item.id}>
+                <ItemBook type="play" data={item} />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   )
 }
 
 export default Favourite
-
-const styles = StyleSheet.create({})
