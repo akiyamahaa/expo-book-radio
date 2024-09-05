@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomButton from '@/components/CustomButton'
@@ -36,5 +36,3 @@ const VerifyAccount = () => {
 }
 
 export default VerifyAccount
-
-const styles = StyleSheet.create({})

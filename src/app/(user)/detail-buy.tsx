@@ -77,7 +77,7 @@ export default function DetailBuy() {
           ...inputForm,
           thumbnail: imgUrl,
         },
-        userId: user.uid,
+        userId: user!.uid,
       }
       await addDocument('sells', null, dataSubmit)
       router.back()

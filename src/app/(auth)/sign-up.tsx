@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
@@ -10,7 +10,7 @@ import { setUser } from '@/redux/userSlice'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
 import { Ionicons } from '@expo/vector-icons'
-import { Toast } from 'expo-react-native-toastify'
+import Toast from 'react-native-toast-message'
 
 const SignUp = () => {
   const [email, setEmail] = useState('')
@@ -25,13 +25,19 @@ const SignUp = () => {
     setLoading(true)
     try {
       await createUserWithEmailAndPassword(auth, email, password).then((res) => {
-        Toast.success('Đăng ký thành công!')
-        dispatch(setUser({ user: res.user }))
+        Toast.show({
+          type: 'success',
+          text1: 'Đăng ký thành công! 👋',
+        })
+        dispatch(setUser(res.user))
         router.push(ERouteTable.VERIFY_ACCOUNT)
-        setLoading(false)
       })
-    } catch (error) {
-      Toast.error(error.message ? error.message : 'Đăng ký thất bại, vui lòng thử lại!')
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: error.message ? error.message : 'Đăng ký thất bại, vui lòng thử lại!',
+      })
+    } finally {
       setLoading(false)
     }
   }
@@ -113,5 +119,3 @@ const SignUp = () => {
 }
 
 export default SignUp
-
-const styles = StyleSheet.create({})

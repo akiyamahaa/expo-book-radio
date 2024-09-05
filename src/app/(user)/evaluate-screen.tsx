@@ -30,21 +30,23 @@ export default function EvaluateScreen() {
       value: bookId,
     }
 
-    const listComment: IComment[] = await queryDocuments('comments', queryOptions)
-    const averageRating = listComment
-      .reduce((result, currentComment) => {
-        return result + currentComment.rating / listComment.length
-      }, 0)
-      .toFixed(2)
-    await updateDocument('book-radio', bookId, {
-      rating: averageRating,
-    })
+    const listComment: IComment[] | null = await queryDocuments('comments', queryOptions)
+    if (listComment) {
+      const averageRating = listComment
+        .reduce((result, currentComment) => {
+          return result + currentComment.rating / listComment.length
+        }, 0)
+        .toFixed(2)
+      await updateDocument('book-radio', bookId, {
+        rating: averageRating,
+      })
+    }
   }
 
   const handleComment = async () => {
     const dataComment: IComment = {
       bookId: bookId,
-      userId: user.uid,
+      userId: user!.uid,
       rating: rate,
       comment: comment,
     }

@@ -1,9 +1,9 @@
 import { PlayerControls } from '@/components/PlayerControls'
 import { PlayerProgressBar } from '@/components/PlayerProgressbar'
-import { colors, screenPadding } from '@/constants/tokens'
+import { screenPadding } from '@/constants/tokens'
 import { defaultStyles } from '@/styles'
 import { AntDesign } from '@expo/vector-icons'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useActiveTrack } from 'react-native-track-player'
 import { router } from 'expo-router'
@@ -12,52 +12,61 @@ import React from 'react'
 
 const MusicScreen = () => {
   const activeTrack = useActiveTrack()
-
   return (
-    <View style={{ flex: 1 }} colors={[colors.background]}>
-      <View style={styles.overlayContainer}>
-        <HeaderComponent
-          title="Sách nói"
-          iconLeft={
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="#1F2937" />
-            </TouchableOpacity>
-          }
-          styleHeader="mt-12"
-        />
-        <View style={{ flex: 1, marginTop: 70 }}>
-          <View style={styles.artworkImageContainer}>
-            <FastImage
-              source={{
-                uri: activeTrack?.thumbnail,
-                priority: FastImage.priority.high,
-              }}
-              resizeMode="cover"
-              style={styles.artworkImage}
-            />
-          </View>
-          <View className="text-center flex flex-row mt-3 justify-center">
-            {/* Track artist */}
-            {activeTrack?.author && (
-              <Text numberOfLines={1} className="text-white text-xs">
-                {activeTrack.author}
+    <ImageBackground
+      source={{
+        uri: activeTrack?.thumbnail,
+      }}
+      resizeMode="cover"
+      className="flex-1"
+    >
+      <StatusBar barStyle={'light-content'} />
+      <View className="flex-1 opacity-95" style={{ backgroundColor: '#000000BF' }}>
+        <View style={styles.overlayContainer}>
+          <HeaderComponent
+            title="Sách nói"
+            iconLeft={
+              <TouchableOpacity onPress={() => router.back()}>
+                <AntDesign name="left" size={24} color="#FFFFFF" />
+              </TouchableOpacity>
+            }
+            styleHeader="mt-12"
+            styleTitle="text-white"
+          />
+          <View style={{ flex: 1, marginTop: 70 }}>
+            <View style={styles.artworkImageContainer}>
+              <FastImage
+                source={{
+                  uri: activeTrack?.thumbnail,
+                  priority: FastImage.priority.high,
+                }}
+                resizeMode="cover"
+                style={styles.artworkImage}
+              />
+            </View>
+            <View className="text-center flex flex-row mt-3 justify-center">
+              {/* Track artist */}
+              {activeTrack?.author && (
+                <Text numberOfLines={1} className="text-white text-xs">
+                  {activeTrack.author}
+                </Text>
+              )}
+            </View>
+            {activeTrack?.name && (
+              <Text numberOfLines={2} className="text-white mt-2 font-semibold text-center text-xl">
+                {activeTrack.name}
               </Text>
             )}
-          </View>
-          {activeTrack?.name && (
-            <Text numberOfLines={2} className="text-white mt-2 font-semibold text-center text-xl">
-              {activeTrack.name}
-            </Text>
-          )}
-          <View style={{ flex: 1 }}>
-            <View>
-              <PlayerProgressBar style={{ marginTop: 32 }} />
-              <PlayerControls style={{ marginTop: 40 }} />
+            <View style={{ flex: 1 }}>
+              <View>
+                <PlayerProgressBar style={{ marginTop: 32 }} />
+                <PlayerControls style={{ marginTop: 40 }} />
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   )
 }
 

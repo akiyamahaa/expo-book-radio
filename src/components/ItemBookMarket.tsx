@@ -2,19 +2,11 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import { MaterialIcons } from '@expo/vector-icons'
+import { IBook } from '@/types/book'
 
 interface IItemBookMarket {
-  data: any
+  data: IBook
   onPress?: () => void
-}
-
-interface IDataItemBook {
-  id: number
-  name: string
-  author: string
-  rating: number
-  price: number
-  image: number
 }
 
 export default function ItemBookMarket({ data, onPress }: IItemBookMarket) {
