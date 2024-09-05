@@ -57,7 +57,7 @@ const Home = () => {
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal
-                data={activeTab === 1 ? dataRead : dataRadio}
+                data={activeTab !== 1 ? dataRead : dataRadio}
                 renderItem={(item) => (
                   <ItemBook type={activeTab === 1 ? 'play' : ''} data={item.item} />
                 )}
@@ -67,23 +67,28 @@ const Home = () => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal
-              data={listDataHome}
+              data={activeTab !== 1 ? dataRead : dataRadio}
               renderItem={(item) => <ItemBook type="play" data={item.item} />}
             />
             <TitleHome title="Tâm lý, tình cảm" />
-            <FlatList
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              data={listDataHome}
-              renderItem={(item) => <ItemBook type="play" data={item.item} />}
-            />
+            {listDataHome && (
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                horizontal
+                data={listDataHome.filter((item) => item.category === '1')}
+                renderItem={(item) => <ItemBook type="play" data={item.item} />}
+              />
+            )}
+
             <TitleHome title="Văn hóa" />
-            <FlatList
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              data={listDataHome}
-              renderItem={(item) => <ItemBook type="play" data={item.item} />}
-            />
+            {listDataHome && (
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                horizontal
+                data={listDataHome.filter((item) => item.category === '0')}
+                renderItem={(item) => <ItemBook type="play" data={item.item} />}
+              />
+            )}
           </ScrollView>
         )}
       </View>

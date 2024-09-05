@@ -9,6 +9,7 @@ import {
   setDoc,
   updateDoc,
   where,
+  deleteDoc,
 } from 'firebase/firestore'
 import { firebaseDB as db } from './index'
 import { EQueryOperator } from './type'
@@ -43,6 +44,16 @@ const addDocument = async (collectionName: string, documentId: string | null, da
     }
   } catch (err) {
     console.log(err)
+  }
+}
+
+const deleteDocument = async (collectionName: string, documentId: string) => {
+  try {
+    const docRef = doc(db, collectionName, documentId)
+    await deleteDoc(docRef)
+    console.log(`Document with ID ${documentId} has been deleted.`)
+  } catch (err) {
+    console.error('Error deleting document:', err)
   }
 }
 
@@ -174,4 +185,5 @@ export {
   queryDocuments,
   customQueryDocuments,
   uploadImagesToStorage,
+  deleteDocument,
 }

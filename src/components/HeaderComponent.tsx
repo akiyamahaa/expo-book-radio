@@ -5,7 +5,7 @@ interface IHeaderComponentProps {
   title: string
   iconRight?: any
   styleHeader?: string
-  styleTitle?:string
+  styleTitle?: string
 }
 
 export default function HeaderComponent({
@@ -13,7 +13,7 @@ export default function HeaderComponent({
   title,
   iconRight,
   styleHeader,
-  styleTitle
+  styleTitle,
 }: IHeaderComponentProps) {
   return (
     <View className={`flex flex-row justify-between mb-2 ${styleHeader}`}>

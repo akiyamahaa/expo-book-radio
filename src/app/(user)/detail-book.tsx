@@ -8,8 +8,15 @@ import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
 import TrackPlayer, { Track } from 'react-native-track-player'
-import { IBook, IComment } from '@/types/book'
-import { getAllDocuments, getOneDocument, IQueryOptions, queryDocuments } from '@/firebase/api'
+import { IBook, IComment, ISellBook } from '@/types/book'
+import {
+  addDocument,
+  deleteDocument,
+  getAllDocuments,
+  getOneDocument,
+  IQueryOptions,
+  queryDocuments,
+} from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'
 import { useAppSelector } from '@/redux'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
@@ -54,6 +61,8 @@ export default function DetailBook() {
 
   const [listDataHome, setListDataHome] = useState<any[]>([])
 
+  const [listDataWishList, setListDataWishList] = useState<any[]>([])
+
   const queueOffset = useRef(0)
   const { activeQueueId, setActiveQueueId } = useQueue()
 
@@ -62,11 +71,15 @@ export default function DetailBook() {
     if (a) {
       setListDataHome(a)
     }
+    const b: any[] | null = await getAllDocuments('wishlist')
+    if (b) {
+      setListDataWishList(b)
+    }
   }
 
   useEffect(() => {
     renderData()
-  }, [])
+  }, [activeHeart])
 
   const togglePlayPause = async () => {
     if (!book) return // Ensure `book` is not null
@@ -131,6 +144,35 @@ export default function DetailBook() {
     }, [bookId, user]),
   )
 
+  const handleAddToWishList = async () => {
+    if (!activeHeart) {
+      const dataSubmit: any = {
+        bookId: book?.id,
+        userId: user?.uid,
+      }
+      await addDocument('wishlist', null, dataSubmit)
+      setActiveHeart(!activeHeart)
+    } else {
+      const a = listDataWishList.filter((item) => item.bookId === book?.id)
+      if (a && a.length > 0) {
+        await deleteDocument('wishlist', a[0].id)
+        setActiveHeart(!activeHeart)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (listDataWishList && listDataWishList?.length > 0) {
+      const listCheckHeart = listDataWishList.filter((item) => item.userId === user?.uid)
+      if (listCheckHeart && listCheckHeart.length > 0) {
+        const check = listCheckHeart.some((item) => item.bookId === book?.id)
+        if (check) {
+          setActiveHeart(true)
+        }
+      }
+    }
+  }, [listDataWishList, user, book])
+
   return (
     <SafeAreaView className="bg-white h-full relative flex-1">
       <View className="mx-4 flex-1">
@@ -142,7 +184,7 @@ export default function DetailBook() {
             </TouchableOpacity>
           }
           iconRight={
-            <TouchableOpacity onPress={() => setActiveHeart(!activeHeart)}>
+            <TouchableOpacity onPress={handleAddToWishList}>
               <MaterialCommunityIcons
                 name="cards-heart-outline"
                 size={24}
@@ -181,15 +223,17 @@ export default function DetailBook() {
                   </View>
                 </View>
               </View>
-              <View className="flex-row flex items-center bg-[#EE4F1C1A] mt-4 rounded-[16px] px-[12px] py-2">
-                <TouchableOpacity onPress={togglePlayPause}>
-                  <AntDesign name="play" size={24} color="#EE4F1C" />
-                </TouchableOpacity>
-                <View className="ml-2">
-                  <Text className="font-semibold">{book.name}</Text>
-                  <Text className="text-xs">{book.author}</Text>
+              {book.typeBook === 'RADIO' && (
+                <View className="flex-row flex items-center bg-[#EE4F1C1A] mt-4 rounded-[16px] px-[12px] py-2">
+                  <TouchableOpacity onPress={togglePlayPause}>
+                    <AntDesign name="play" size={24} color="#EE4F1C" />
+                  </TouchableOpacity>
+                  <View className="ml-2">
+                    <Text className="font-semibold">{book.name}</Text>
+                    <Text className="text-xs">{book.author}</Text>
+                  </View>
                 </View>
-              </View>
+              )}
               <Text className="font-semibold mt-4 mb-0.5 text-lg">Mô tả</Text>
               <View>
                 <Text numberOfLines={!showALL ? 4 : undefined}>{book.description}</Text>

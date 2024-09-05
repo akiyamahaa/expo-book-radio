@@ -21,7 +21,7 @@ export default function BuyTab() {
         value: user?.uid,
       }
       const listPurchased = await queryDocuments<IPurchaseBook[]>('purchases', queryOptions)
-      console.log("🚀 ~ fetchBooks ~ listPurchased:", listPurchased)
+      console.log('🚀 ~ fetchBooks ~ listPurchased:', listPurchased)
       const listBookId = listPurchased?.map((item) => item.bookId)
 
       const listBooks = await queryDocuments<IBook[]>('book-radio', {

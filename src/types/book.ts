@@ -15,7 +15,7 @@ export interface IBook {
   name: string
   description: string
   thumbnail: string
-  categories: string
+  category: string
   typeBook?: string
   author: string
   numberPage: number

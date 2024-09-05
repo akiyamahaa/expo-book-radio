@@ -1,6 +1,6 @@
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native expo](https://docs.expo.dev/more/create-expo/) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native expo](https://docs.expo.dev/more/create-expo/) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
@@ -45,9 +45,45 @@ If everything is set up _correctly_, you should see your new app running in your
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
 ## Step 3: Environment Setup
+
 ```bash
 node: v18.19.0
 pod: 1.15.2
 npm: 10.2.3
 yarn: 1.22.19
+```
+
+## Step 4: Instructions for creating sample data
+
+We will have 2 data forms for reading books and audio books.
+
+```bash
+# Reading books
+{
+  "name": "The Great Gatsby", // name of book
+  "author": "F. Scott Fitzgerald", // author
+  "description": "The Great Gatsby is a 1925 novel by American writer F.", // description
+  "thumbnail": "https://images-na.ssl-images-amazon.com/images/I/51ZUv0JF5EL._SX331_BO1,204,203,200_.jpg", // thumbnail book
+  "rating": "4.5", // rating
+  "price": 200000, // price in VND
+  "typeBook": "READ", // READ or RADIO
+  "numberChapter": 100, // number of chapters
+  "numberPage":  200, // number of pages
+  "category": 0 // 0: Cultural books, 1: Psychology and love books
+}
+
+# Audio books
+{
+  "name": "The Great Gatsby", // name of book
+  "author": "F. Scott Fitzgerald", // author
+  "description": "The Great Gatsby is a 1925 novel by American writer F.", // description
+  "thumbnail": "https://images-na.ssl-images-amazon.com/images/I/51ZUv0JF5EL._SX331_BO1,204,203,200_.jpg", // thumbnail book
+  "rating": "4.5", // rating
+  "price": 200000, // price in VND
+  "typeBook": "RADIO", // READ or RADIO
+  "numberChapter": 100, // number of chapters
+  "numberPage":  200, // number of pages
+  "category": 1 // 0: Cultural books, 1: Psychology and love books,
+  "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // url audio book
+}
 ```
