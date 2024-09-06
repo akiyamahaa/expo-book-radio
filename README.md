@@ -2,7 +2,19 @@
 
 > **Note**: Make sure you have completed the [React Native expo](https://docs.expo.dev/more/create-expo/) instructions till "Creating a new application" step, before proceeding.
 
-## Step 1: Start the Metro Server
+## Step 1: Installation
+
+1. Clone the repository:
+```bash
+ git clone https://github.com/yourusername/yourproject.git
+```
+
+2. Install dependencies:
+```bash
+ yarn install
+ ```
+
+## Step 2: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
@@ -16,7 +28,7 @@ npm start
 yarn start
 ```
 
-## Step 2: Start your Application
+## Step 3: Start your Application
 
 Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
@@ -44,7 +56,7 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Environment Setup
+## Step 4: Environment Setup
 
 ```bash
 node: v18.19.0
@@ -53,7 +65,7 @@ npm: 10.2.3
 yarn: 1.22.19
 ```
 
-## Step 4: Instructions for creating sample data
+## Step 5: Instructions for creating sample data
 
 We will have 2 data forms for reading books and audio books.
 
