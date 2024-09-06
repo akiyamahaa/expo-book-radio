@@ -1,44 +1,41 @@
 import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ItemBook from '@/components/ItemBook'
-import { getAllDocuments } from '@/firebase/api'
-import { IBook } from '@/types/book'
+import { IQueryOptions, queryDocuments } from '@/firebase/api'
+import { IBook, IWishList } from '@/types/book'
 import { useIsFocused } from '@react-navigation/core'
 import { useAppSelector } from '@/redux'
+import { EQueryOperator } from '@/firebase/type'
 
 const Favourite = () => {
-  const [listDataHome, setListDataHome] = useState<IBook[] | null>([])
-  const isFocus = useIsFocused()
   const user = useAppSelector((state) => state.user.user)
-  const [listDataWishList, setListDataWishList] = useState<any[]>([])
-  const [listDataFavourite, setListDataFavourite] = useState<any[]>([])
-
-  const renderData = async () => {
-    const a = await getAllDocuments<IBook[]>('book-radio')
-    setListDataHome(a)
-    const b: any[] | null = await getAllDocuments('wishlist')
-    if (b) {
-      setListDataWishList(b)
-    }
-  }
+  const isFocus = useIsFocused()
+  const [listDataFavourite, setListDataFavourite] = useState<IBook[]>([])
 
   useEffect(() => {
-    renderData()
-  }, [isFocus])
-
-  useEffect(() => {
-    if (listDataWishList && listDataWishList?.length > 0) {
-      const listCheckHeart = listDataWishList.filter((item) => item.userId === user?.uid)
-      if (listCheckHeart && listCheckHeart.length > 0 && listDataHome && listDataHome.length > 0) {
-        const commonElements = listDataHome.filter((item1) =>
-          listCheckHeart.find((item2) => item1.id === item2.bookId),
-        )
-        if (commonElements && commonElements.length > 0) {
-          setListDataFavourite(commonElements)
-        }
+    const renderData = async () => {
+      const queryOptions: IQueryOptions = {
+        property: 'userId',
+        queryOperator: EQueryOperator.EQUAL,
+        value: user?.uid,
+      }
+      const wishLists = await queryDocuments<IWishList[]>('wishlist', queryOptions)
+      const listBookId = wishLists?.map((book) => book.bookId)
+      if (listBookId && listBookId.length > 0) {
+        const listBooks = await queryDocuments<IBook[]>('book-radio', {
+          property: 'id',
+          queryOperator: EQueryOperator.IN,
+          value: listBookId,
+        })
+        setListDataFavourite(listBooks!)
       }
     }
-  }, [listDataHome, listDataWishList])
+    renderData()
+    return () => {
+      setListDataFavourite([])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocus])
 
   return (
     <SafeAreaView className="bg-white pb-6 flex-1">

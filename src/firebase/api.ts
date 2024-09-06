@@ -16,7 +16,6 @@ import { EQueryOperator } from './type'
 import {
   getStorage,
   ref,
-  uploadBytes,
   getDownloadURL,
   uploadBytesResumable,
 } from 'firebase/storage'

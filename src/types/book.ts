@@ -55,3 +55,9 @@ export interface ISellBook {
   userId: string
   bookInfo: IBook
 }
+
+export interface IWishList {
+  id?: string
+  userId: string
+  bookId: string
+}

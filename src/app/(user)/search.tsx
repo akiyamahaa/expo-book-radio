@@ -10,42 +10,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import ItemBook from '@/components/ItemBook'
-import { images } from '@/constants'
 import { IBook } from '@/types/book'
-import {
-  customQueryDocuments,
-  getAllDocuments,
-  IQueryOptions,
-  queryDocuments,
-} from '@/firebase/api'
-import { collection, or, query, where } from 'firebase/firestore'
-import { firebaseDB } from '@/firebase'
-import { EQueryOperator } from '@/firebase/type'
+import { getAllDocuments } from '@/firebase/api'
 import { getRandomArray } from '@/utils/common'
-
-const fakeData = [
-  {
-    id: 'asjsajdaskjdkals',
-    image: images.logoApp,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-  {
-    id: 'asjsajdaskjddsadakals',
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-  {
-    id: 'asjsajdaskjddsadadassddakals',
-    image: images.thumbnail,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyen van a',
-    rating: 4,
-  },
-]
 
 const Search = () => {
   const [search, setSearch] = React.useState('')
