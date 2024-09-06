@@ -1,4 +1,12 @@
-import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import HeaderHome from '@/components/HeaderHome'
 import ItemBook from '@/components/ItemBook'
@@ -30,7 +38,7 @@ const Home = () => {
   }, [listDataHome])
 
   return (
-    <SafeAreaView className="bg-white pb-6 flex-1">
+    <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <View className="mx-4 flex-1">
         <HeaderHome title="LOGO" />
         {listDataHome &&

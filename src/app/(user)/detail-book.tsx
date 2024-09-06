@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
@@ -7,8 +7,8 @@ import { images } from '@/constants'
 import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
-import TrackPlayer, { Track } from 'react-native-track-player'
-import { IBook, IComment, ISellBook } from '@/types/book'
+import TrackPlayer from 'react-native-track-player'
+import { IBook, IComment } from '@/types/book'
 import {
   addDocument,
   deleteDocument,
@@ -174,7 +174,10 @@ export default function DetailBook() {
   }, [listDataWishList, user, book])
 
   return (
-    <SafeAreaView className="bg-white h-full relative flex-1">
+    <SafeAreaView
+      className="bg-white h-full relative flex-1"
+      style={{ paddingTop: StatusBar.currentHeight }}
+    >
       <View className="mx-4 flex-1">
         <HeaderComponent
           title="Thông tin sách"
@@ -267,7 +270,7 @@ export default function DetailBook() {
                 </View>
               ))}
             </ScrollView>
-            <View className="flex flex-row justify-between pt-2">
+            <View className="flex flex-row justify-between py-2">
               <View>
                 <Text className="text-[#6B7280]">Giá</Text>
                 <Text className="font-semibold text-xl">{formatCurrencyVND(book.price)}</Text>

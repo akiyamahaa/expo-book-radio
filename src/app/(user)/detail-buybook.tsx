@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import HeaderComponent from '@/components/HeaderComponent'
 import { router, useLocalSearchParams } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
@@ -56,7 +56,10 @@ export default function DetailBuyBook() {
   }
 
   return (
-    <SafeAreaView className="bg-white h-full relative flex-1">
+    <SafeAreaView
+      className="bg-white h-full relative flex-1"
+      style={{ paddingTop: StatusBar.currentHeight }}
+    >
       {book ? (
         <View className="mx-4 flex-1">
           <HeaderComponent

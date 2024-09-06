@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ItemBook from '@/components/ItemBook'
 import { IQueryOptions, queryDocuments } from '@/firebase/api'
@@ -38,7 +38,7 @@ const Favourite = () => {
   }, [isFocus])
 
   return (
-    <SafeAreaView className="bg-white pb-6 flex-1">
+    <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <Text className="text-xl font-semibold text-center mb-2">Yêu thích</Text>
       {listDataFavourite && listDataFavourite?.length > 0 && (
         <ScrollView showsVerticalScrollIndicator={false} className="mb-2 mx-4">

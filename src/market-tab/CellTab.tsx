@@ -52,6 +52,12 @@ export default function CellTab() {
       ) : (
         <LoadingAnimation />
       )}
+      <CustomButton
+        title="Thêm sách"
+        onPress={() => router.push('/detail-buy')}
+        containerStyle="w-full mt-7 mb-2 bg-[#EE4F1C] min-h-[48px]"
+        textStyle="text-white"
+      />
     </View>
   )
 }

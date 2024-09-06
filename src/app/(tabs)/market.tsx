@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import BuyTab from '@/market-tab/BuyTab'
 import CellTab from '@/market-tab/CellTab'
@@ -16,7 +16,7 @@ const Market = () => {
   }
 
   return (
-    <SafeAreaView className="bg-white pb-6 flex-1">
+    <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <Text className="text-xl font-semibold text-center mb-2">Mua & bán</Text>
       <View className="bg-[#F3F4F6] h-[48px] w-full py-2 px-4">
         <View className="bg-[#e4e7eb] w-full h-[32px] rounded-[10px] flex-row p-1">

@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  StatusBar,
 } from 'react-native'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -15,17 +16,9 @@ import * as ImagePicker from 'expo-image-picker'
 import CustomButton from '@/components/CustomButton'
 import React, { useState } from 'react'
 import { addDocument, uploadImagesToStorage } from '@/firebase/api'
-import { IBook, ISellBook } from '@/types/book'
+import { categoryArray, IBook, ISellBook } from '@/types/book'
 import { useAppSelector } from '@/redux'
 import { Dropdown } from 'react-native-element-dropdown'
-const categoryArray = [
-  { label: 'Tiểu thuyết', value: '1' },
-  { label: 'Tâm lý', value: '2' },
-  { label: 'Hài kịch', value: '3' },
-  { label: 'Chính kịch', value: '4' },
-  { label: 'Anime', value: '5' },
-  { label: 'Trinh thám', value: '6' },
-]
 
 export default function DetailBuy() {
   const user = useAppSelector((state) => state.user.user)
@@ -37,7 +30,7 @@ export default function DetailBuy() {
     author: '',
     description: '',
     price: 0,
-    categories: '',
+    category: '',
     numberChapter: 0,
     numberPage: 0,
     thumbnail: '',
@@ -48,7 +41,7 @@ export default function DetailBuy() {
     'author',
     'description',
     'price',
-    'categories',
+    'category',
     'numberChapter',
     'numberPage',
     'thumbnail',
@@ -87,7 +80,7 @@ export default function DetailBuy() {
   }
 
   return (
-    <SafeAreaView className="bg-white pb-6 flex-1">
+    <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <View className="mx-4">
         <HeaderComponent
           title="Bán sách"
@@ -124,11 +117,11 @@ export default function DetailBuy() {
             valueField="value"
             placeholder={!isFocus ? 'Thể loại' : '...'}
             searchPlaceholder="Search..."
-            value={inputForm.categories}
+            value={inputForm.category}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-              setInputForm({ ...inputForm, categories: item.value })
+              setInputForm({ ...inputForm, category: item.value })
               setIsFocus(false)
             }}
           />
