@@ -69,7 +69,7 @@ export default function DetailBook() {
   const renderData = async () => {
     const a: IBook[] | null = await getAllDocuments('book-radio')
     if (a) {
-      setListDataHome(a)
+      setListDataHome(a.filter((item) => item.typeBook === 'RADIO'))
     }
     const b: any[] | null = await getAllDocuments('wishlist')
     if (b) {
