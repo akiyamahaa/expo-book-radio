@@ -39,7 +39,9 @@ const Favourite = () => {
 
   return (
     <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
-      <Text className="text-xl font-semibold text-center mb-2">Yêu thích</Text>
+      <View className="flex-row flex justify-center items-center pb-2 border-b border-b-[#D1D5DB] mb-4">
+        <Text className="font-medium text-xl">Yêu thích</Text>
+      </View>
       {listDataFavourite && listDataFavourite?.length > 0 && (
         <ScrollView showsVerticalScrollIndicator={false} className="mb-2 mx-4">
           <View className="flex flex-wrap flex-row gap-2 justify-between">
