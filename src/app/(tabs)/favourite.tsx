@@ -17,7 +17,7 @@ const Favourite = () => {
       const queryOptions: IQueryOptions = {
         property: 'userId',
         queryOperator: EQueryOperator.EQUAL,
-        value: user?.uid,
+        value: user?.id,
       }
       const wishLists = await queryDocuments<IWishList[]>('wishlist', queryOptions)
       const listBookId = wishLists?.map((book) => book.bookId)

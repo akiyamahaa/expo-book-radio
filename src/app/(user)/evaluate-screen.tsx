@@ -46,9 +46,10 @@ export default function EvaluateScreen() {
   const handleComment = async () => {
     const dataComment: IComment = {
       bookId: bookId,
-      userId: user!.uid,
+      userId: user!.id,
       rating: rate,
       comment: comment,
+      username: user!.username || '',
     }
     try {
       await addDocument('comments', null, dataComment)

@@ -1,4 +1,12 @@
-import { Image, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import HeaderComponent from '@/components/HeaderComponent'
 import { AntDesign, EvilIcons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
@@ -24,10 +32,12 @@ import { useQueue } from '@/store/queue'
 
 const CommentCard = ({
   username,
+  userId,
   rating,
   comment,
 }: {
   username: string
+  userId: string
   rating: number
   comment: string
 }) => {
@@ -39,7 +49,7 @@ const CommentCard = ({
         resizeMode="contain"
       />
       <View>
-        <Text className="font-semibold mb-0.5">{username}</Text>
+        <Text className="font-semibold mb-0.5">{username || userId}</Text>
         <StarRating ratingValue={rating} disabled={true} size={12} />
         <Text className="mt-0.5">{comment}</Text>
       </View>
@@ -133,7 +143,7 @@ export default function DetailBook() {
         const list: IComment[] | null = await queryDocuments('comments', queryOptions)
 
         if (list) {
-          const isCheck = list.some((comment) => comment.userId === user!.uid)
+          const isCheck = list.some((comment) => comment.userId === user!.id)
           setIsCommented(isCheck)
           setListComment(list)
         }
@@ -148,7 +158,7 @@ export default function DetailBook() {
     if (!activeHeart) {
       const dataSubmit: any = {
         bookId: book?.id,
-        userId: user?.uid,
+        userId: user?.id,
       }
       await addDocument('wishlist', null, dataSubmit)
       setActiveHeart(!activeHeart)
@@ -163,7 +173,7 @@ export default function DetailBook() {
 
   useEffect(() => {
     if (listDataWishList && listDataWishList?.length > 0) {
-      const listCheckHeart = listDataWishList.filter((item) => item.userId === user?.uid)
+      const listCheckHeart = listDataWishList.filter((item) => item.userId === user?.id)
       if (listCheckHeart && listCheckHeart.length > 0) {
         const check = listCheckHeart.some((item) => item.bookId === book?.id)
         if (check) {
@@ -266,7 +276,12 @@ export default function DetailBook() {
               <Text className="font-semibold mt-4 mb-0.5 text-lg">Đánh giá & nhận xét</Text>
               {listComment.map((item, index) => (
                 <View key={index}>
-                  <CommentCard username={item.userId} rating={item.rating} comment={item.comment} />
+                  <CommentCard
+                    username={item.username}
+                    userId={item.userId}
+                    rating={item.rating}
+                    comment={item.comment}
+                  />
                 </View>
               ))}
             </ScrollView>

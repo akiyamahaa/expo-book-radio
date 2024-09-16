@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IUser {
-  uid: string
+  id: string
   email: string | null
-  displayName: string | null
-  photoURL: string | null
-  emailVerified: boolean
+  username: string | null
+  photoURL?: string | null
+  phone?: string | null
+  password: string
 }
 
 type UserState = {

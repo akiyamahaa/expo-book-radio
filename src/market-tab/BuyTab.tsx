@@ -1,7 +1,6 @@
 import { FlatList, View } from 'react-native'
 import ItemBookMarket from '@/components/ItemBookMarket'
 import React, { useEffect, useState } from 'react'
-import { router } from 'expo-router'
 import { IBook, IPurchaseBook } from '@/types/book'
 import { IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'
@@ -18,21 +17,25 @@ export default function BuyTab() {
       const queryOptions: IQueryOptions = {
         property: 'userId',
         queryOperator: EQueryOperator.EQUAL,
-        value: user?.uid,
+        value: user?.id,
       }
       const listPurchased = await queryDocuments<IPurchaseBook[]>('purchases', queryOptions)
       console.log('🚀 ~ fetchBooks ~ listPurchased:', listPurchased)
       const listBookId = listPurchased?.map((item) => item.bookId)
 
-      const listBooks = await queryDocuments<IBook[]>('book-radio', {
-        property: 'id',
-        queryOperator: EQueryOperator.IN,
-        value: listBookId,
-      })
-      setBookPurchased(listBooks)
+      if (listBookId && listBookId.length > 0) {
+        const listBooks = await queryDocuments<IBook[]>('book-radio', {
+          property: 'id',
+          queryOperator: EQueryOperator.IN,
+          value: listBookId,
+        })
+        setBookPurchased(listBooks)
+      } else {
+        setBookPurchased([])
+      }
     }
     fetchBooks()
-  }, [user?.uid])
+  }, [user?.id])
   return (
     <View className="flex-1">
       {bookPurchased ? (

@@ -6,12 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
 import CustomButton from '@/components/CustomButton'
 import { Checkbox } from 'expo-checkbox'
-import { setUser } from '@/redux/userSlice'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import firebaseApp from '@/firebase'
 import { useAppDispatch } from '@/redux'
 import { Ionicons } from '@expo/vector-icons'
 import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getOneDocument } from '@/firebase/api'
+import { IUser, setUser } from '@/redux/userSlice'
 
 const SignIn = () => {
   const [isChecked, setChecked] = useState(false)
@@ -25,21 +27,19 @@ const SignIn = () => {
   const handleAuthentication = async () => {
     setLoading(true)
     try {
-      await signInWithEmailAndPassword(auth, email, password).then((res) => {
-        const user = {
-          uid: res?.user.uid,
-          email: res?.user.email,
-          displayName: res?.user.displayName,
-          photoURL: res?.user.photoURL,
-          emailVerified: res?.user.emailVerified,
-        }
-        dispatch(setUser(user))
-        Toast.show({
-          type: 'success',
-          text1: 'Đăng nhập thành công! 👋',
-        })
-        router.push(ERouteTable.HOME)
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+
+      // Save user ID to AsyncStorage
+      await AsyncStorage.setItem('userId', user.uid)
+
+      const userInfo = await getOneDocument<IUser>('users', user.uid)
+      dispatch(setUser(userInfo as IUser))
+      Toast.show({
+        type: 'success',
+        text1: 'Đăng nhập thành công! 👋',
       })
+      router.push(ERouteTable.HOME)
     } catch (error: any) {
       Toast.show({
         type: 'error',

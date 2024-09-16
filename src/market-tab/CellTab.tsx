@@ -1,7 +1,6 @@
 import { FlatList, View } from 'react-native'
 import ItemBookMarket from '@/components/ItemBookMarket'
 import React, { useEffect, useState } from 'react'
-import { images } from '@/constants'
 import { router } from 'expo-router'
 import CustomButton from '@/components/CustomButton'
 import { IBook, ISellBook } from '@/types/book'
@@ -10,18 +9,6 @@ import { IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
 
-const fakeData = [
-  {
-    id: 1,
-    name: 'Tôi thấy hoa vàng trên cỏ xanh',
-    author: 'Nguyễn Nhật Ánh',
-    rating: 4.5,
-    price: 20000,
-    image: images.logoApp,
-    numberChapter: 15,
-    numberPage: 316,
-  },
-]
 
 export default function CellTab() {
   const user = useAppSelector((state) => state.user.user)
@@ -33,7 +20,7 @@ export default function CellTab() {
       const queryOptions: IQueryOptions = {
         property: 'userId',
         queryOperator: EQueryOperator.EQUAL,
-        value: user!.uid,
+        value: user!.id,
       }
       const listPurchased = await queryDocuments<ISellBook[]>('sells', queryOptions)
       setBookSell(listPurchased)

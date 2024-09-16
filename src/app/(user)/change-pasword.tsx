@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { router } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
@@ -7,7 +7,7 @@ import CustomButton from '@/components/CustomButton'
 
 export default function ChangePasword() {
   return (
-    <SafeAreaView className="px-4 bg-white pb-6 flex-1">
+    <SafeAreaView className="px-4 bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <View className="flex-row flex items-center pb-2 relative mb-8 border-b border-b-[#D1D5DB]">
         <TouchableOpacity onPress={() => router.back()} className="absolute ml-4 bottom-2">
           <AntDesign name="left" size={24} color="black" />

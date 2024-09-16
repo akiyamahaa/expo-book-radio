@@ -33,6 +33,7 @@ export interface IComment {
   userId: string
   comment: string
   rating: number
+  username: string
   // createdAt?:Date;
   // updatedAt?:Date
 }

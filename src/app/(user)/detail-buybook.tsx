@@ -39,7 +39,7 @@ export default function DetailBuyBook() {
   const onSubmit = async () => {
     const dataPurchaseBook: IPurchaseBook = {
       bookId: bookId!,
-      userId: user!.uid,
+      userId: user!.id,
       userName: inputForm.name,
       phone: inputForm.phone,
       address: inputForm.address,

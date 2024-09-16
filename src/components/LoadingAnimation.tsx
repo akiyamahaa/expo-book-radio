@@ -3,7 +3,7 @@ import React from 'react'
 
 export const LoadingAnimation = () => {
   return (
-    <View flex={1} style={styles.container}>
+    <View style={styles.container}>
       <View className="flex flex-row justify-center items-center mt-60">
         <Image className="w-20 h-20" alt="avatar" source={require('../../assets/loading.gif')} />
       </View>
@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: '100%',
     height: '100%',
+    flex:1,
   },
 })

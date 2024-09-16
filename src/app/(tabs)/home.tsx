@@ -14,8 +14,11 @@ import TitleHome from '@/components/TitleHome'
 import { getAllDocuments } from '@/firebase/api'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
 import { IBook } from '@/types/book'
+import { useAppSelector } from '@/redux'
 
 const Home = () => {
+  const { user } = useAppSelector((state) => state.user)
+  console.log("🚀 ~ Home ~ user:", user)
   const [activeTab, setActiveTab] = React.useState(1)
   const [listDataHome, setListDataHome] = useState<IBook[] | null>([])
   const [dataRead, setDataRead] = useState<any>([])
