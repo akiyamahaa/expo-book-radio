@@ -1,3 +1,5 @@
+import { IUser } from '@/redux/userSlice'
+
 export enum EBookType {
   READ,
   AUDIO,
@@ -33,7 +35,7 @@ export interface IComment {
   userId: string
   comment: string
   rating: number
-  username: string
+  userInfo?: IUser
   // createdAt?:Date;
   // updatedAt?:Date
 }

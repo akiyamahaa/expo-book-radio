@@ -28,7 +28,7 @@ const Profile = () => {
       <View className="mx-4 mt-[28px]">
         <View className="flex flex-col m-auto items-center mt-8 mb-12">
           <Image
-            source={images.profile}
+            source={user?.avatar ? { uri: user?.avatar } : images.profile}
             className="w-[108px] h-[108px] rounded-full"
             resizeMode="cover"
           />
@@ -44,7 +44,7 @@ const Profile = () => {
           </View>
           <AntDesign name="right" size={20} color="#6B7280" />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => router.navigate('/change-pasword')}
           className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2"
         >
@@ -57,7 +57,7 @@ const Profile = () => {
             <Text className="font-bold text-base">Đổi mật khẩu</Text>
           </View>
           <AntDesign name="right" size={20} color="#6B7280" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <View className="flex-row justify-between items-center pb-2 border-b border-b-[#D1D5DB] mt-2">
           <View className="flex flex-row gap-2 items-center">
             <Image

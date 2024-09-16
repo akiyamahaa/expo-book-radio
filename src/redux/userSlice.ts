@@ -4,7 +4,8 @@ export interface IUser {
   id: string
   email: string | null
   username: string | null
-  photoURL?: string | null
+  avatar?: string | null
+  avatarName?: string | null
   phone?: string | null
   password: string
 }

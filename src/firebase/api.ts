@@ -37,7 +37,6 @@ const addDocument = async (collectionName: string, documentId: string | null, da
       return
     } else {
       const newRef = doc(collection(db, collectionName))
-      console.log('🚀 ~ addDocument ~ newRef:', newRef)
       // later...
       await setDoc(newRef, { ...data, id: newRef.id })
     }

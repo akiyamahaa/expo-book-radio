@@ -1,6 +1,6 @@
 import { FlatList, View } from 'react-native'
 import ItemBookMarket from '@/components/ItemBookMarket'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { IBook, IPurchaseBook } from '@/types/book'
 import { IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'

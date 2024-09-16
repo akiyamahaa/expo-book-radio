@@ -49,7 +49,6 @@ export default function EvaluateScreen() {
       userId: user!.id,
       rating: rate,
       comment: comment,
-      username: user!.username || '',
     }
     try {
       await addDocument('comments', null, dataComment)

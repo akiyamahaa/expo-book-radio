@@ -29,27 +29,26 @@ import { EQueryOperator } from '@/firebase/type'
 import { useAppSelector } from '@/redux'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
 import { useQueue } from '@/store/queue'
+import { IUser } from '@/redux/userSlice'
 
 const CommentCard = ({
-  username,
-  userId,
+  userInfo,
   rating,
   comment,
 }: {
-  username: string
-  userId: string
+  userInfo?: IUser
   rating: number
   comment: string
 }) => {
   return (
     <View className="flex flex-row gap-2 border-b pb-2 border-b-[#E5E7EB] mt-1">
       <Image
-        source={images.logoApp}
+        source={userInfo?.avatar ? { uri: userInfo?.avatar } : images.logoApp}
         className="w-full max-w-[40px] h-[40px] rounded-full"
         resizeMode="contain"
       />
       <View>
-        <Text className="font-semibold mb-0.5">{username || userId}</Text>
+        <Text className="font-semibold mb-0.5">{userInfo?.username || 'Anonymous'}</Text>
         <StarRating ratingValue={rating} disabled={true} size={12} />
         <Text className="mt-0.5">{comment}</Text>
       </View>
@@ -141,11 +140,19 @@ export default function DetailBook() {
         }
 
         const list: IComment[] | null = await queryDocuments('comments', queryOptions)
+        console.log('🚀 ~ fetchAllComment ~ list:', list)
 
         if (list) {
+          const commentsWithUserInfo = await Promise.all(
+            list.map(async (comment) => {
+              const userInfo = await getOneDocument<any>('users', comment.userId)
+              return { ...comment, userInfo }
+            }),
+          )
+          setListComment(commentsWithUserInfo)
+
           const isCheck = list.some((comment) => comment.userId === user!.id)
           setIsCommented(isCheck)
-          setListComment(list)
         }
       }
 
@@ -277,8 +284,7 @@ export default function DetailBook() {
               {listComment.map((item, index) => (
                 <View key={index}>
                   <CommentCard
-                    username={item.username}
-                    userId={item.userId}
+                    userInfo={item.userInfo}
                     rating={item.rating}
                     comment={item.comment}
                   />
