@@ -86,16 +86,20 @@ export default function EditProfile() {
 
     try {
       const userRef = doc(firebaseDB, 'users', user.id)
-      const { avatarName, avatarUrl } = await uploadImage(image!)
-      // TODO: fix type updateDoc
-      const updateProfile: any = {
-        ...user,
+      let avatarData = { avatarName: user?.avatarName, avatarUrl: user?.avatar }
+    
+      if (image && image !== user?.avatar) {
+        avatarData = await uploadImage(image)
+      }
+  
+      const updateProfile: Partial<IUser> = {
         phone,
         username,
         email,
-        avatar: avatarUrl,
-        avatarName,
+        avatar: avatarData.avatarUrl || '',
+        avatarName: avatarData.avatarName || '',
       }
+      console.log("🚀 ~ handleUpdateProfile ~ updateProfile:", updateProfile)
       await updateDoc(userRef, updateProfile)
       // Update Redux state
       const userInfo = await getOneDocument<IUser>('users', user.id)
