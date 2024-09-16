@@ -99,3 +99,10 @@ We will have 2 data forms for reading books and audio books.
   "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // url audio book
 }
 ```
+
+## Step 6: Build Apk File
+```bash
+cd /android
+./gradlew assembleRelease
+```
+After building app, you can get it from directory android/app/build/outputs/apk/release
