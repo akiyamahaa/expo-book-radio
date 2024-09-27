@@ -66,10 +66,9 @@ export interface IWishList {
 }
 
 export const categoryArray = [
-  { label: 'Tiểu thuyết', value: '1' },
-  { label: 'Tâm lý', value: '2' },
-  { label: 'Hài kịch', value: '3' },
-  { label: 'Chính kịch', value: '4' },
-  { label: 'Anime', value: '5' },
-  { label: 'Trinh thám', value: '6' },
+  { label: 'Tư duy', value: '1' },
+  { label: 'Hài kịch', value: '2' },
+  { label: 'Khoa học', value: '3' },
+  { label: 'Manga', value: '4' },
+  { label: 'Trinh thám', value: '5' },
 ]

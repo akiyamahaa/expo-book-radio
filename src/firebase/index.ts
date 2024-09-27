@@ -5,19 +5,19 @@ import { getStorage } from 'firebase/storage'
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyDNbjyFm8rHuYCK8cGS5bSU6srD4f0ElQ8',
-  authDomain: 'book-radio-app.firebaseapp.com',
-  projectId: 'book-radio-app',
-  storageBucket: 'book-radio-app.appspot.com',
-  messagingSenderId: '552369278266',
-  appId: '1:552369278266:web:13b8891cc95700a5465403',
-  measurementId: 'G-4DZ6HPVGWS',
+  apiKey: 'AIzaSyBnX3F_jEXU0zF7KVxzRQJCMYdHsgVq3Ss',
+  authDomain: 'expo-book-radio.firebaseapp.com',
+  projectId: 'expo-book-radio',
+  storageBucket: 'expo-book-radio.appspot.com',
+  messagingSenderId: '773425661403',
+  appId: '1:773425661403:web:46be9988eac690173ad3fe',
+  measurementId: 'G-P6HDXPPFGW',
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
 export const firebaseAuth = getAuth(firebaseApp)
 export const firebaseDB = getFirestore(firebaseApp)
-export const firebaseStorage = getStorage(firebaseApp);
+export const firebaseStorage = getStorage(firebaseApp)
 export default firebaseApp
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

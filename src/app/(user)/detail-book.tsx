@@ -16,7 +16,7 @@ import StarRating from '@/components/StarRating'
 import { formatCurrencyVND } from '@/utils/formatCurrency'
 import CustomButton from '@/components/CustomButton'
 import TrackPlayer from 'react-native-track-player'
-import { IBook, IComment } from '@/types/book'
+import { categoryArray, IBook, IComment } from '@/types/book'
 import {
   addDocument,
   deleteDocument,
@@ -75,18 +75,17 @@ export default function DetailBook() {
   const queueOffset = useRef(0)
   const { activeQueueId, setActiveQueueId } = useQueue()
 
-  const renderData = async () => {
-    const a: IBook[] | null = await getAllDocuments('book-radio')
-    if (a) {
-      setListDataHome(a.filter((item) => item.typeBook === 'RADIO'))
-    }
-    const b: any[] | null = await getAllDocuments('wishlist')
-    if (b) {
-      setListDataWishList(b)
-    }
-  }
-
   useEffect(() => {
+    const renderData = async () => {
+      const a: IBook[] | null = await getAllDocuments('book-radio')
+      if (a) {
+        setListDataHome(a.filter((item) => item.typeBook === 'RADIO'))
+      }
+      const b: any[] | null = await getAllDocuments('wishlist')
+      if (b) {
+        setListDataWishList(b)
+      }
+    }
     renderData()
   }, [activeHeart])
 
@@ -129,7 +128,9 @@ export default function DetailBook() {
   useFocusEffect(
     useCallback(() => {
       const fetchBookDetail = async () => {
+        console.log('🚀 ~ fetchBookDetail ~ bookId:', bookId)
         const data = await getOneDocument<IBook>('book-radio', bookId!)
+        console.log('🚀 ~ fetchBookDetail ~ data:', data)
         setBook(data)
       }
       const fetchAllComment = async () => {
@@ -225,6 +226,9 @@ export default function DetailBook() {
                   {book.name}
                 </Text>
                 <Text className="text-center top-[-65px]">{book.author}</Text>
+                <Text className="text-center top-[-58px] font-bold">
+                  Thể loại: {categoryArray.find((cat) => cat.value === book.category)?.label}
+                </Text>
                 <View className="flex flex-row justify-between top-[-50px]">
                   <View className="flex flex-col items-center">
                     <View className="flex flex-row items-center">

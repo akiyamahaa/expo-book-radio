@@ -13,12 +13,9 @@ import ItemBook from '@/components/ItemBook'
 import TitleHome from '@/components/TitleHome'
 import { getAllDocuments } from '@/firebase/api'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
-import { IBook } from '@/types/book'
-import { useAppSelector } from '@/redux'
+import { categoryArray, IBook } from '@/types/book'
 
 const Home = () => {
-  const { user } = useAppSelector((state) => state.user)
-  console.log("🚀 ~ Home ~ user:", user)
   const [activeTab, setActiveTab] = React.useState(1)
   const [listDataHome, setListDataHome] = useState<IBook[] | null>([])
   const [dataRead, setDataRead] = useState<any>([])
@@ -81,25 +78,30 @@ const Home = () => {
               data={activeTab !== 1 ? dataRead : dataRadio}
               renderItem={(item) => <ItemBook type="play" data={item.item} />}
             />
-            <TitleHome title="Tâm lý, tình cảm" />
-            {listDataHome && (
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                data={listDataHome.filter((item) => item.category === '1')}
-                renderItem={(item) => <ItemBook type="play" data={item.item} />}
-              />
-            )}
+            {listDataHome &&
+              categoryArray.map((category) => {
+                const filterData = listDataHome.filter((item) => {
+                  const type = activeTab === 0 ? 'READ' : 'RADIO'
+                  return item.category === category.value && item.typeBook === type
+                })
 
-            <TitleHome title="Văn hóa" />
-            {listDataHome && (
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                data={listDataHome.filter((item) => item.category === '0')}
-                renderItem={(item) => <ItemBook type="play" data={item.item} />}
-              />
-            )}
+                return filterData.length > 0 ? (
+                  <View key={category.value}>
+                    <TitleHome title={category.label} />
+                    <FlatList
+                      showsHorizontalScrollIndicator={false}
+                      horizontal
+                      data={listDataHome.filter((item) => {
+                        const type = activeTab === 0 ? 'READ' : 'RADIO'
+                        return item.category === category.value && item.typeBook === type
+                      })}
+                      renderItem={(item) => <ItemBook type="play" data={item.item} />}
+                    />
+                  </View>
+                ) : (
+                  <View key={category.value} />
+                )
+              })}
           </ScrollView>
         )}
       </View>

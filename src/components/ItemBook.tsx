@@ -3,7 +3,6 @@ import { images } from '@/constants'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
-import * as url from 'node:url'
 
 export interface IDataItemBook {
   id: string
@@ -32,7 +31,7 @@ export default function ItemBook({ type, data }: ItemBookProps) {
         <Image
           style={{ width: calculatedWidth }}
           source={{ uri: data.thumbnail }}
-          className="w-full h-[228px] rounded-[20px]"
+          className="w-full h-[228px] rounded-t-3xl"
         />
         {type === 'play' && (
           <View className="absolute bottom-2 right-2">
