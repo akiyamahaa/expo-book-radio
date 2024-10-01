@@ -5,7 +5,9 @@ import path from '@/assets/images/path.png'
 import logo from '@/assets/images/logo.png'
 import logoSmall from '@/assets/images/logo-small.png'
 import empty from '@/assets/images/empty.png'
-import logoApp from '@/assets/logo.png'
+import logoApp from '@/assets/book/logo.png'
+import logoTextApp from '@/assets/book/logo-text.png'
+
 import iconChangePass from '@/assets/icon-profile/iconChangePass.png'
 import iconLogout from '@/assets/icon-profile/iconLogout.png'
 import iconNotification from '@/assets/icon-profile/iconNotification.png'
@@ -28,4 +30,5 @@ export default {
   iconLogout,
   iconNotification,
   iconProfile,
+  logoTextApp,
 }

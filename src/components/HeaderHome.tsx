@@ -15,7 +15,11 @@ export default function HeaderHome({ title }: IHeaderHome) {
         className="w-full max-w-[40px] h-[40px] rounded-full"
         resizeMode="contain"
       />
-      <Text className="font-bold text-primary-600 text-xl">{title}</Text>
+      <Image
+        source={images.logoTextApp}
+        className="w-full max-w-[125px] h-[40px] rounded-full"
+        resizeMode="contain"
+      />
       <TouchableOpacity onPress={() => router.push('/search')}>
         <EvilIcons name="search" size={30} color="#6B7280" />
       </TouchableOpacity>

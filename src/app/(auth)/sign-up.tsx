@@ -62,7 +62,7 @@ const SignUp = () => {
         <View className="mx-4">
           <Image
             source={images.logoApp}
-            className="h-[80px] w-[80px] mt-10 mx-auto rounded"
+            className="h-[80px] w-[92px] mt-10 mx-auto rounded"
             resizeMode="contain"
           />
           <Text className="text-center text-2xl font-bold mt-10">Đăng ký</Text>
