@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <SafeAreaView className="bg-white pb-6 flex-1" style={{ paddingTop: StatusBar.currentHeight }}>
       <View className="mx-4 flex-1">
-        <HeaderHome title="LOGO" />
+        <HeaderHome />
         {listDataHome &&
         !(listDataHome.length > 0) &&
         !(dataRead.length > 0 || dataRadio.length > 0) ? (
@@ -51,13 +51,13 @@ const Home = () => {
               <View className="flex-row gap-2 -rotate-90 mt-[120px] -ml-14 h-8">
                 <TouchableOpacity
                   onPress={() => setActiveTab(1)}
-                  className={`${activeTab === 1 ? 'border-b-2 border-b-[#EE4F1C]' : ''}`}
+                  className={`${activeTab === 1 ? 'border-b-2 border-b-primary-600' : ''}`}
                 >
                   <Text className={`${activeTab === 1 ? 'font-bold' : ''}`}>Sách nói</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setActiveTab(0)}
-                  className={`${activeTab === 0 ? 'border-b-2 border-b-[#EE4F1C]' : ''}`}
+                  className={`${activeTab === 0 ? 'border-b-2 border-b-primary-600' : ''}`}
                 >
                   <Text className={`${activeTab === 0 ? 'font-bold' : ''}`}>Sách đọc</Text>
                 </TouchableOpacity>
@@ -71,7 +71,7 @@ const Home = () => {
                 )}
               />
             </View>
-            <TitleHome title="Gợi ý" isShow={true} />
+            <TitleHome title="Gợi ý" />
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal

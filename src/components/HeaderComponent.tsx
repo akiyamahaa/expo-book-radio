@@ -19,7 +19,7 @@ export default function HeaderComponent({
     <View className={`flex flex-row justify-between mb-2 ${styleHeader}`}>
       <View>{iconLeft && iconLeft}</View>
       <View>
-        <Text className={`text-xl font-bold text-primary-600 ${styleTitle}`}>{title}</Text>
+        <Text className={`text-xl font-bold text-[#8873FF] ${styleTitle}`}>{title}</Text>
       </View>
       <View>{iconRight && iconRight}</View>
     </View>

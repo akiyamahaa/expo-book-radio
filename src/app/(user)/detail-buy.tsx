@@ -193,7 +193,7 @@ export default function DetailBuy() {
             />
           ) : (
             <View className="flex items-center justify-center flex-col">
-              <MaterialCommunityIcons name="image-plus" size={48} color="#EE4F1C" />
+              <MaterialCommunityIcons name="image-plus" size={48} color="#8873FF" />
               <Text className="mt-2 font-semibold text-[#6B7280]">Tải lên hình ảnh sách</Text>
             </View>
           )}
@@ -201,7 +201,7 @@ export default function DetailBuy() {
         <CustomButton
           title="Thêm sách"
           onPress={onSubmitSellBook}
-          containerStyle={`w-full mt-7 mb-2 bg-[#EE4F1C] min-h-[48px] ${isDisabledSubmit && 'bg-gray-300'}`}
+          containerStyle={`w-full mt-7 mb-2 bg-primary-600 min-h-[48px] ${isDisabledSubmit && 'bg-gray-300'}`}
           textStyle="text-white"
           disabled={isDisabledSubmit}
         />

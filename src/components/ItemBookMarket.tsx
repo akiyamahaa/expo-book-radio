@@ -22,12 +22,12 @@ export default function ItemBookMarket({ data, onPress }: IItemBookMarket) {
           {data.name}
         </Text>
         <View className="flex flex-row items-center mb-2">
-          <MaterialIcons name="star-rate" size={14} color="#EE4F1C" />
-          <Text className="text-xs font-semibold text-[#EE4F1C] mr-8">{data.rating || 0}</Text>
+          <MaterialIcons name="star-rate" size={14} color="#8873FF" />
+          <Text className="text-xs font-semibold text-[#8873FF] mr-8">{data.rating || 0}</Text>
           <Text className="mr-4 text-[#6B7280]">{data.numberChapter} Chương</Text>
           <Text className="text-[#6B7280]">{data.numberPage} Trang</Text>
         </View>
-        <Text className="text-[#EE4F1C] text-sm">{formatCurrencyVND(data.price)}</Text>
+        <Text className="text-[#8873FF] text-sm">{formatCurrencyVND(data.price)}</Text>
       </View>
     </TouchableOpacity>
   )

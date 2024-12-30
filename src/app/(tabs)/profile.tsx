@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar } from 'react-native'
+import { Text, TouchableOpacity, View, Image } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
@@ -84,5 +84,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-const styles = StyleSheet.create({})

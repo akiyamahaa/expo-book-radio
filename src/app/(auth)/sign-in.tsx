@@ -102,7 +102,7 @@ const SignIn = () => {
             title="Đăng nhập"
             // onPress={handleLogin}
             onPress={handleAuthentication}
-            containerStyle="w-full mt-7 bg-[#EE4F1C] min-h-[48px]"
+            containerStyle="w-full mt-7 bg-primary-600 min-h-[48px]"
             textStyle="text-white"
             isLoading={loading}
           />

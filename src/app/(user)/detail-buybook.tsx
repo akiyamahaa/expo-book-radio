@@ -77,7 +77,7 @@ export default function DetailBuyBook() {
             </View>
             <View className="flex flex-row justify-between mt-2">
               <Text className="text-sm font-semibold text-[#6B7280]">Tổng</Text>
-              <Text className="text-[#EE4F1C] text-lg font-semibold">
+              <Text className="text-[#8873FF] text-lg font-semibold">
                 {formatCurrencyVND(book.price)}
               </Text>
             </View>

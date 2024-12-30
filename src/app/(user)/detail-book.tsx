@@ -209,7 +209,7 @@ export default function DetailBook() {
               <MaterialCommunityIcons
                 name="cards-heart-outline"
                 size={24}
-                color={activeHeart ? 'red' : '#1F2937'}
+                color={activeHeart ? '#8873FF' : '#1F2937'}
               />
             </TouchableOpacity>
           }
@@ -217,12 +217,12 @@ export default function DetailBook() {
         {book ? (
           <>
             <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-              <View className="bg-[#EE4F1C1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
+              <View className="bg-[#8873FF1A] h-[346px] p-2 rounded-[20px] mt-[100px] relative items-center flex flex-col">
                 <Image
                   source={{ uri: book.thumbnail }}
                   className="w-[176px] h-[250px] top-[-80px] rounded-[20px]"
                 />
-                <Text className="text-center top-[-70px] text-xl font-semibold text-[#EE4F1C] max-w-[70%]">
+                <Text className="text-center top-[-70px] text-xl font-semibold text-[#8873FF] max-w-[70%]">
                   {book.name}
                 </Text>
                 <Text className="text-center top-[-65px]">{book.author}</Text>
@@ -233,7 +233,7 @@ export default function DetailBook() {
                   <View className="flex flex-col items-center">
                     <View className="flex flex-row items-center">
                       <Text className="text-xl font-semibold ml-1">{book.rating || 0}</Text>
-                      <MaterialIcons name="star-rate" size={16} color="#EE4F1C" />
+                      <MaterialIcons name="star-rate" size={16} color="#8873FF" />
                     </View>
                     <Text className="text-xs">Đánh giá</Text>
                   </View>
@@ -248,9 +248,9 @@ export default function DetailBook() {
                 </View>
               </View>
               {book.typeBook === 'RADIO' && (
-                <View className="flex-row flex items-center bg-[#EE4F1C1A] mt-4 rounded-[16px] px-[12px] py-2">
+                <View className="flex-row flex items-center bg-[#8873FF1A] mt-4 rounded-[16px] px-[12px] py-2">
                   <TouchableOpacity onPress={togglePlayPause}>
-                    <AntDesign name="play" size={24} color="#EE4F1C" />
+                    <AntDesign name="play" size={24} color="#8873FF" />
                   </TouchableOpacity>
                   <View className="ml-2">
                     <Text className="font-semibold">{book.name}</Text>
@@ -269,17 +269,17 @@ export default function DetailBook() {
               <View className="flex flex-row justify-between mt-2 items-center">
                 <View className="flex flex-row gap-1">
                   {[1, 2, 3, 4, 5].map((elm) => (
-                    <EvilIcons key={elm} name="star" size={24} color="#EE4F1C" />
+                    <EvilIcons key={elm} name="star" size={24} color="#8873FF" />
                   ))}
                 </View>
                 <TouchableOpacity
-                  className={`p-2 border rounded-[10px]  ${isCommented ? 'border-green-600' : 'border-[#EE4F1C]'}`}
+                  className={`p-2 border rounded-[10px]  ${isCommented ? 'border-green-600' : 'border-primary-600'}`}
                   onPress={() =>
                     router.push({ pathname: '/evaluate-screen', params: { bookId: book.id } })
                   }
                   disabled={isCommented}
                 >
-                  <Text className={`${isCommented ? 'text-green-600' : 'text-[#EE4F1C]'}`}>
+                  <Text className={`${isCommented ? 'text-green-600' : 'text-[#8873FF]'}`}>
                     {isCommented ? 'Đã đánh giá' : 'Viết đánh giá'}
                   </Text>
                 </TouchableOpacity>

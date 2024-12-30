@@ -1,13 +1,9 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Image, TouchableOpacity } from 'react-native'
 import { images } from '@/constants'
 import { EvilIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 
-interface IHeaderHome {
-  title: string
-}
-
-export default function HeaderHome({ title }: IHeaderHome) {
+export default function HeaderHome() {
   return (
     <View className="flex-row flex justify-between items-center pb-2">
       <Image
@@ -17,7 +13,7 @@ export default function HeaderHome({ title }: IHeaderHome) {
       />
       <Image
         source={images.logoTextApp}
-        className="w-full max-w-[125px] h-[40px] rounded-full"
+        className="w-full max-w-[125px] h-[40px]"
         resizeMode="contain"
       />
       <TouchableOpacity onPress={() => router.push('/search')}>

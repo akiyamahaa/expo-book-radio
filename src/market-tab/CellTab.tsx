@@ -9,7 +9,6 @@ import { IQueryOptions, queryDocuments } from '@/firebase/api'
 import { EQueryOperator } from '@/firebase/type'
 import { LoadingAnimation } from '@/components/LoadingAnimation'
 
-
 export default function CellTab() {
   const user = useAppSelector((state) => state.user.user)
 
@@ -42,7 +41,7 @@ export default function CellTab() {
       <CustomButton
         title="Thêm sách"
         onPress={() => router.push('/detail-buy')}
-        containerStyle="w-full mt-7 mb-2 bg-[#EE4F1C] min-h-[48px]"
+        containerStyle="w-full mt-7 mb-2 bg-primary-600 min-h-[48px]"
         textStyle="text-white"
       />
     </View>

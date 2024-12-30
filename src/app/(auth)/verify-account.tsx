@@ -22,12 +22,12 @@ const VerifyAccount = () => {
           <CustomButton
             title="Xác thực"
             onPress={() => router.push(ERouteTable.HOME)}
-            containerStyle="w-full mt-7 mb-2 bg-[#EE4F1C] min-h-[48px]"
+            containerStyle="w-full mt-7 mb-2 bg-primary-600 min-h-[48px]"
             textStyle="text-white"
           />
           <View className="flex-row gap-1 flex mx-auto">
             <Text className="font-light">Gửi lại mã sau</Text>
-            <Text className="text-primary-600 font-bold">60S</Text>
+            <Text className="text-[#8873FF] font-bold">60S</Text>
           </View>
         </View>
       </SafeAreaView>

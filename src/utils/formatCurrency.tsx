@@ -1,3 +1,3 @@
-export const formatCurrencyVND = (value) => {
+export const formatCurrencyVND = (value: number) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
 }

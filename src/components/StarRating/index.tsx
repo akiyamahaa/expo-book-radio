@@ -34,7 +34,7 @@ const StarRating = ({
             <FontAwesome
               name={index < rating ? 'star' : 'star-o'}
               size={size}
-              color={index < rating ? '#EE4F1C' : '#EE4F1C'}
+              color={index < rating ? '#8873FF' : '#8873FF'}
             />
           </TouchableOpacity>
         )
