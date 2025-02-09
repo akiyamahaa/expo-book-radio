@@ -1,7 +1,7 @@
 ## LOGO APP
 <img src="./assets/book/logo.png">
 
-# BOOK CIRCLE - Personal Finance Management App
+# BOOK CIRCLE 
 
 ## Description:
 The BookCircle App is your all-in-one platform for exploring the world of books, whether you're a listener, reader, or seller. Discover a vast collection of audiobooks with easy access to book information and audio versions for an immersive listening experience. If you're more into reading, explore our "Books to Read" section, where you can find detailed information on second-hand books, including prices and a convenient contact form to purchase your favorite reads. Additionally, for those looking to sell, you can easily submit details of your old books through our seller form and connect with potential buyers. Book Radio is designed to bring book lovers together, offering both auditory and reading experiences all in one place.
